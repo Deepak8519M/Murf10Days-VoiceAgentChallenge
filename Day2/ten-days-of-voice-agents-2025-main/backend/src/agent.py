@@ -1,5 +1,6 @@
 import logging
 import json
+import os
 
 from dotenv import load_dotenv
 from livekit.agents import (
@@ -21,61 +22,62 @@ logger = logging.getLogger("agent")
 
 load_dotenv(".env.local")
 
-
+# ----------------------------
+# AGENT INSTRUCTIONS
+# ----------------------------
 class Assistant(Agent):
     def __init__(self) -> None:
         super().__init__(
-            instructions="""You are a friendly coffee shop barista working at Blue Tokai Coffee.
-            Your job is to take coffee orders from customers using voice.
+            instructions="""
+            You are a friendly coffee shop barista working at Blue Tokai Coffee.
 
-            You must ask questions one-by-one until ALL the following fields are filled:
-
-            drinkType (e.g., Latte, Cappuccino, Cold Brew)
-            size (Small, Medium, Large)
-            milk (Regular, Almond, Oat, Soy)
-            extras (list: e.g., whipped cream, caramel, chocolate syrup)
-            name (customer's name)
-
-            Always confirm the user’s answer and then move to the next missing field.
-
-            When all fields are filled:
-            1. Speak a friendly confirmation.
-            2. Save the order to order.json.
-            3. Then ask: “Would you like to order anything else?”""",
+            Your job is to take coffee orders using voice.
+            
+            You must ask questions one-by-one until ALL the fields are filled:
+            
+            • drinkType (Latte, Cappuccino, Cold Brew…)
+            • size (Small / Medium / Large)
+            • milk (Regular / Almond / Oat / Soy)
+            • extras (whipped cream, caramel, mocha…)
+            • name (user name)
+            
+            When ALL fields are filled:
+            1. Confirm the order.
+            2. Save it to order.json
+            3. Ask: “Would you like to order anything else?”
+            """
         )
 
-
 # ----------------------------
-# GLOBAL ORDER STATE (correct place)
+# ORDER STATE — GLOBAL
 # ----------------------------
 order_state = {
     "drinkType": None,
     "size": None,
     "milk": None,
     "extras": [],
-    "name": None
+    "name": None,
 }
-
 
 # ----------------------------
 # SAVE ORDER FUNCTION
 # ----------------------------
-# def save_order():
-#     with open("order.json", "w") as f:
-#         json.dump(order_state, f, indent=4)
-
-import os
-
 def save_order():
     path = os.path.join(os.getcwd(), "order.json")
-    print("Saving order to:", path)
+    print("\n🔥 Saving order to:", path, "\n")
+
     with open(path, "w") as f:
         json.dump(order_state, f, indent=4)
 
+# ----------------------------
+# PREWARM
+# ----------------------------
 def prewarm(proc: JobProcess):
     proc.userdata["vad"] = silero.VAD.load()
 
-
+# ----------------------------
+# ENTRYPOINT
+# ----------------------------
 async def entrypoint(ctx: JobContext):
     ctx.log_context_fields = {"room": ctx.room.name}
 
@@ -93,6 +95,9 @@ async def entrypoint(ctx: JobContext):
         preemptive_generation=True,
     )
 
+    # ----------------------------
+    # METRICS
+    # ----------------------------
     usage_collector = metrics.UsageCollector()
 
     @session.on("metrics_collected")
@@ -106,42 +111,46 @@ async def entrypoint(ctx: JobContext):
 
     ctx.add_shutdown_callback(log_usage)
 
+    # ----------------------------
+    # START SESSION
+    # ----------------------------
     await session.start(
         agent=Assistant(),
         room=ctx.room,
         room_input_options=RoomInputOptions(
-            noise_cancellation=noise_cancellation.BVC(),
+            noise_cancellation=noise_cancellation.BVC()
         ),
     )
 
     # ----------------------------
-    # TRANSCRIPTION HANDLER
+    # HANDLE TRANSCRIPTIONS
     # ----------------------------
     @session.on("transcription")
     async def handle_transcription(ev):
         text = ev.text.lower()
+        print("👂 Heard:", text)
 
         global order_state
 
-        # drink type
+        # 1. drink type
         if order_state["drinkType"] is None:
             order_state["drinkType"] = text
             await session.say("Great choice! What size would you like?")
             return
 
-        # size
+        # 2. size
         if order_state["size"] is None:
             order_state["size"] = text
             await session.say("Nice! What milk do you prefer?")
             return
 
-        # milk
+        # 3. milk
         if order_state["milk"] is None:
             order_state["milk"] = text
             await session.say("Any extras like whipped cream or caramel?")
             return
 
-        # extras
+        # 4. extras
         if order_state["extras"] == []:
             if "no" in text:
                 order_state["extras"] = []
@@ -150,15 +159,23 @@ async def entrypoint(ctx: JobContext):
             await session.say("Almost done! What is your name?")
             return
 
-        # name
+        # 5. customer name
         if order_state["name"] is None:
             order_state["name"] = text
+
+            # SAVE FILE
             save_order()
-            await session.say("Thank you! Your order has been saved. Anything else?")
+
+            await session.say(
+                "Thank you! Your order has been saved. Would you like anything else?"
+            )
             return
 
     await ctx.connect()
 
 
+# ----------------------------
+# RUN WORKER
+# ----------------------------
 if __name__ == "__main__":
     cli.run_app(WorkerOptions(entrypoint_fnc=entrypoint, prewarm_fnc=prewarm))
