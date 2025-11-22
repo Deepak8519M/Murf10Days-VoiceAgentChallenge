@@ -60,10 +60,17 @@ order_state = {
 # ----------------------------
 # SAVE ORDER FUNCTION
 # ----------------------------
-def save_order():
-    with open("order.json", "w") as f:
-        json.dump(order_state, f, indent=4)
+# def save_order():
+#     with open("order.json", "w") as f:
+#         json.dump(order_state, f, indent=4)
 
+import os
+
+def save_order():
+    path = os.path.join(os.getcwd(), "order.json")
+    print("Saving order to:", path)
+    with open(path, "w") as f:
+        json.dump(order_state, f, indent=4)
 
 def prewarm(proc: JobProcess):
     proc.userdata["vad"] = silero.VAD.load()
