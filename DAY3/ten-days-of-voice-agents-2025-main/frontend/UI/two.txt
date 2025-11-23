@@ -1,0 +1,174 @@
+// components/app/welcome-view.tsx
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Activity, HeartPulse, Mic, PhoneCall, ShieldCheck } from 'lucide-react';
+import { Button } from '@/components/livekit/button';
+
+// Official Apollo 24|7 & Apollo Pharmacy colors (2025)
+const apollo = {
+  navy: '#00205B',
+  blue: '#005EB8',
+  teal: '#00A19D',
+  lightBg: '#F8FBFF',
+  border: '#E1E8F0',
+};
+
+export const WelcomeView = React.forwardRef<
+  HTMLDivElement,
+  { startButtonText: string; onStartCall: () => void }
+>(({ startButtonText, onStartCall }, ref) => {
+  return (
+    <div
+      ref={ref}
+      className="min-h-screen w-full bg-gradient-to-b from-[#F8FBFF] to-white"
+      style={{ backgroundColor: apollo.lightBg }}
+    >
+      {/* Subtle floating background accent */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <motion.div
+          animate={{ y: [0, -30, 0] }}
+          transition={{ repeat: Infinity, duration: 15, ease: 'easeInOut' }}
+          className="absolute top-10 left-10 h-96 w-96 rounded-full opacity-20 blur-3xl"
+          style={{ backgroundColor: apollo.blue }}
+        />
+        <motion.div
+          animate={{ y: [0, 30, 0] }}
+          transition={{ repeat: Infinity, duration: 18, ease: 'easeInOut' }}
+          className="absolute right-10 bottom-20 h-80 w-80 rounded-full opacity-15 blur-3xl"
+          style={{ backgroundColor: apollo.teal }}
+        />
+      </div>
+
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center px-6 py-16">
+        {/* Apollo-style Logo Area */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="mb-10"
+        >
+          <div className="flex flex-col items-center gap-4">
+            <HeartPulse className="h-24 w-24" fill={apollo.blue} stroke="white" strokeWidth={2} />
+            <div className="text-center">
+              <h1 className="text-5xl font-bold md:text-6xl" style={{ color: apollo.navy }}>
+                Daily Health Check-in
+              </h1>
+              <p className="mt-3 text-xl font-medium text-gray-600 md:text-2xl">
+                Your personal wellness companion
+              </p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Tagline */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="mt-6 max-w-3xl text-center text-lg leading-relaxed text-gray-700 md:text-xl"
+        >
+          Start your day with a gentle voice check-in — track mood, energy, and set small,
+          achievable goals.
+          <br />
+          <span className="font-semibold" style={{ color: apollo.blue }}>
+            Because your health deserves daily attention.
+          </span>
+        </motion.p>
+
+        {/* Main CTA Button - Apollo Style */}
+        <motion.div
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.8, type: 'spring', stiffness: 200 }}
+          className="mt-12"
+        >
+          <Button
+            onClick={onStartCall}
+            className="rounded-full px-16 py-8 text-xl font-bold text-white shadow-xl transition-all duration-300 hover:shadow-2xl md:text-2xl"
+            style={{
+              background: `linear-gradient(135deg, ${apollo.navy} 0%, ${apollo.blue} 100%)`,
+            }}
+          >
+            <span className="flex items-center gap-4">
+              <PhoneCall className="h-8 w-8" />
+              {startButtonText}
+            </span>
+          </Button>
+        </motion.div>
+
+        {/* Trust Features - Clean Cards */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2 }}
+          className="mt-20 grid w-full grid-cols-1 gap-8 md:grid-cols-3"
+        >
+          {[
+            {
+              icon: ShieldCheck,
+              title: 'Trusted & Private',
+              desc: 'Your data stays safe and secure',
+            },
+            { icon: Activity, title: 'Daily Progress', desc: "See how you're improving over time" },
+            { icon: Mic, title: 'Natural Voice', desc: 'Talk naturally — no typing needed' },
+          ].map((item, i) => (
+            <motion.div
+              key={i}
+              whileHover={{ y: -4 }}
+              className="rounded-2xl border bg-white p-8 text-center shadow-lg"
+              style={{ borderColor: apollo.border }}
+            >
+              <item.icon className="mx-auto mb-4 h-16 w-16" style={{ color: apollo.blue }} />
+              <h3 className="text-xl font-bold text-gray-900">{item.title}</h3>
+              <p className="mt-2 text-gray-600">{item.desc}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Apollo Inspired Footer Badge */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.6 }}
+          className="mt-20 text-center"
+        >
+          <p className="text-lg font-medium text-gray-700">Inspired by</p>
+          <p className="mt-2 text-3xl font-bold" style={{ color: apollo.blue }}>
+            Apollo 24|7 • Apollo Pharmacy
+          </p>
+          <p className="mt-3 text-sm text-gray-500">
+            Built with care during #MurfAIVoiceAgentsChallenge
+          </p>
+        </motion.div>
+      </div>
+
+      {/* Bottom Help Link - Clean & Professional */}
+      <motion.div
+        initial={{ y: 30, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 1.8 }}
+        className="fixed bottom-6 left-1/2 -translate-x-1/2"
+      >
+        <div
+          className="rounded-full border bg-white/95 px-8 py-4 shadow-xl backdrop-blur"
+          style={{ borderColor: apollo.border }}
+        >
+          <p className="text-sm text-gray-700 md:text-base">
+            First time?{' '}
+            <a
+              href="https://docs.livekit.io/agents/start/voice-ai/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold underline"
+              style={{ color: apollo.blue }}
+            >
+              Quick setup guide →
+            </a>
+          </p>
+        </div>
+      </motion.div>
+    </div>
+  );
+});
+
+WelcomeView.displayName = 'WelcomeView';

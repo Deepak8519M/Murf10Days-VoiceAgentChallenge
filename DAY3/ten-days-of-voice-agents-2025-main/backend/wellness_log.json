@@ -8,5 +8,15 @@
       "Open project and identify one small task"
     ],
     "summary": "Feeling not very good with 2 out of 10 energy."
+  },
+  {
+    "date": "2025-11-23",
+    "timestamp": "2025-11-23T22:57:52.483328",
+    "mood": "better",
+    "energy": "6 out of 10",
+    "goals": [
+      "Complete the DSM model"
+    ],
+    "summary": "Feeling better with 6 out of 10 energy."
   }
 ]

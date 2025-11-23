@@ -1,164 +1,189 @@
-// src/components/app/welcome-view.tsx   (or wherever your path is)
+// components/app/welcome-view.tsx
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Cloud, Heart, Mic, Sparkles, Sun, Zap } from 'lucide-react';
+import {
+  Activity,
+  Calendar,
+  HeartPulse,
+  Mic,
+  PhoneCall,
+  ShieldCheck,
+  Sparkles,
+} from 'lucide-react';
 import { Button } from '@/components/livekit/button';
 
-function WellnessIllustration() {
-  return (
-    <div className="relative mb-8">
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
-        className="relative"
-      >
-        <div className="absolute inset-0 -z-10 blur-3xl">
-          <div className="mx-auto h-80 w-80 rounded-full bg-gradient-to-br from-emerald-400/30 via-blue-400/20 to-purple-500/30" />
-        </div>
+// Official Apollo 24|7 colors (2025)
+const apollo = {
+  primary: '#1A504C',
+  accent: '#00A19D',
+  light: '#F8FBFF',
+  text: '#1F2A44',
+  muted: '#4B5563',
+};
 
-        <div className="flex flex-col items-center">
-          <div className="relative">
-            <motion.div
-              animate={{ y: [0, -12, 0] }}
-              transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
-            >
-              <Heart className="h-24 w-24 text-emerald-500 drop-shadow-2xl" fill="currentColor" />
-            </motion.div>
-
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut', delay: 1 }}
-              className="absolute -top-6 -left-8"
-            >
-              <Sun className="h-14 w-14 text-yellow-400" />
-            </motion.div>
-
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ repeat: Infinity, duration: 20, ease: 'linear' }}
-              className="absolute -top-8 -right-10"
-            >
-              <Sparkles className="h-12 w-12 text-purple-400" />
-            </motion.div>
-
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ repeat: Infinity, duration: 7, delay: 2 }}
-              className="absolute bottom-2 -left-10"
-            >
-              <Cloud className="h-12 w-12 text-blue-300" />
-            </motion.div>
-
-            <motion.div
-              animate={{ y: [0, -8, 0] }}
-              transition={{ repeat: Infinity, duration: 4.5, delay: 1.5 }}
-              className="absolute right-2 bottom-4"
-            >
-              <Zap className="h-10 w-10 text-amber-400" />
-            </motion.div>
-          </div>
-        </div>
-      </motion.div>
-    </div>
-  );
-}
-
-interface WelcomeViewProps {
-  startButtonText: string;
-  onStartCall: () => void;
-}
-
-// This is the fix: Named export + forwardRef + displayName
 export const WelcomeView = React.forwardRef<
   HTMLDivElement,
-  WelcomeViewProps & React.HTMLAttributes<HTMLDivElement>
->(({ startButtonText, onStartCall, className, ...props }, ref) => {
+  { startButtonText: string; onStartCall: () => void }
+>(({ startButtonText, onStartCall }, ref) => {
   return (
-    <div
-      ref={ref}
-      className={`flex min-h-screen flex-col bg-gradient-to-b from-emerald-50 via-white to-blue-50/50 ${className || ''}`}
-      {...props}
-    >
-      <section className="flex flex-1 flex-col items-center justify-center px-6 text-center">
-        <WellnessIllustration />
+    <div ref={ref} className="relative min-h-screen w-full overflow-hidden bg-white">
+      {/* Top gradient bar – exact Apollo header */}
+      <div
+        className="h-2 w-full"
+        style={{ background: `linear-gradient(90deg, ${apollo.primary}, ${apollo.accent})` }}
+      />
 
+      {/* Subtle floating orbs – luxury feel */}
+      <div className="pointer-events-none absolute inset-0">
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
+          animate={{ y: [-40, 40, -40] }}
+          transition={{ repeat: Infinity, duration: 20, ease: 'easeInOut' }}
+          className="absolute top-20 left-10 h-96 w-96 rounded-full blur-3xl"
+          style={{ background: `radial-gradient(circle, ${apollo.primary}15, transparent 70%)` }}
+        />
+        <motion.div
+          animate={{ y: [40, -40, 40] }}
+          transition={{ repeat: Infinity, duration: 25, ease: 'easeInOut' }}
+          className="absolute right-10 bottom-20 h-80 w-80 rounded-full blur-3xl"
+          style={{ background: `radial-gradient(circle, ${apollo.accent}12, transparent 70%)` }}
+        />
+      </div>
+
+      <div className="relative mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center px-6 py-20">
+        {/* Ultra Premium Hero */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, ease: 'easeOut' }}
+          className="text-center"
         >
-          <h1 className="mb-6 text-4xl leading-tight font-bold text-gray-900 md:text-5xl lg:text-6xl">
-            Your Daily Wellness Companion
+          <h1 className="bg-gradient-to-br from-[#1A504C] via-[#1A504C] to-[#00A19D] bg-clip-text text-7xl leading-none font-black tracking-tighter text-transparent md:text-9xl lg:text-[11rem]">
+            Daily
+            <br />
+            Health
+            <br />
+            Check‑in
           </h1>
-          <p className="mx-auto max-w-2xl text-lg leading-relaxed font-light text-gray-600 md:text-xl">
-            A gentle voice to check in with you every day — reflecting on how you feel, setting
-            small intentions, and growing together.
-          </p>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7 }}
+            className="mx-auto mt-10 max-w-5xl text-2xl leading-relaxed font-light text-gray-700 md:text-4xl"
+            style={{ color: apollo.text }}
+          >
+            Your personal voice companion that truly listens, remembers your journey,
+            <br className="hidden md:block" />
+            and helps you build healthier habits —{' '}
+            <span className="font-semibold text-[#00A19D]">one day at a time</span>.
+          </motion.p>
         </motion.div>
 
+        {/* Flagship Apollo CTA */}
         <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
-          className="mt-12"
+          initial={{ scale: 0.92, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 1.1, type: 'spring', stiffness: 120, damping: 18 }}
+          className="mt-20"
         >
           <Button
-            variant="primary"
-            size="lg"
             onClick={onStartCall}
-            className="group relative transform overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 px-16 py-7 text-lg font-semibold text-white shadow-2xl transition-all duration-300 hover:scale-105 hover:from-emerald-600 hover:to-teal-700"
+            className="group shadow-3xl hover:shadow-4xl relative overflow-hidden rounded-full px-32 py-16 text-3xl font-bold text-white transition-all duration-500 md:text-4xl"
+            style={{
+              background: `linear-gradient(135deg, ${apollo.primary} 0%, #236663 60%, ${apollo.accent} 100%)`,
+              minWidth: '560px',
+              boxShadow: `0 30px 60px ${apollo.primary}50`,
+            }}
           >
-            <span className="relative z-10 flex items-center gap-4">
-              <Mic className="h-7 w-7" />
+            <span className="relative z-10 flex items-center justify-center gap-7">
+              <PhoneCall className="h-14 w-14" />
               {startButtonText}
             </span>
+
+            {/* Animated shine sweep */}
             <motion.div
-              className="absolute inset-0 bg-white/25"
-              initial={{ x: '-100%' }}
-              whileHover={{ x: '100%' }}
-              transition={{ duration: 0.7 }}
+              className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/25 to-transparent"
+              initial={{ x: '-200%' }}
+              animate={{ x: '200%' }}
+              transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
             />
           </Button>
         </motion.div>
 
+        {/* Luxury Feature Grid */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.9 }}
-          className="mt-16 flex flex-wrap justify-center gap-8 text-sm text-gray-600 md:text-base"
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.5 }}
+          className="mt-32 grid grid-cols-2 gap-12 md:grid-cols-4"
         >
-          <div className="flex items-center gap-3">
-            <Calendar className="h-5 w-5 text-emerald-600" />
-            <span>Daily gentle check-ins</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <Heart className="h-5 w-5 text-rose-500" />
-            <span>Remembers your journey</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <Sparkles className="h-5 w-5 text-purple-600" />
-            <span>Small steps, real progress</span>
+          {[
+            { icon: HeartPulse, label: 'Mood & Energy' },
+            { icon: Calendar, label: 'Daily Check‑ins' },
+            { icon: ShieldCheck, label: '100% Private' },
+            { icon: Activity, label: 'Real Progress' },
+          ].map((item, i) => (
+            <motion.div
+              key={i}
+              whileHover={{ y: -12, scale: 1.05 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+              className="group text-center"
+            >
+              <div className="mb-6 rounded-3xl bg-gradient-to-br from-[#1A504C]/8 via-[#00A19D]/5 to-transparent p-10 shadow-xl ring-1 ring-gray-100 backdrop-blur-sm transition-all group-hover:ring-[#00A19D]/30">
+                <item.icon className="mx-auto h-24 w-24" style={{ color: apollo.primary }} />
+              </div>
+              <p className="text-xl font-semibold tracking-tight" style={{ color: apollo.text }}>
+                {item.label}
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Premium Apollo Seal */}
+        <motion.div
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ delay: 2, type: 'spring', stiffness: 100 }}
+          className="mt-44"
+        >
+          <div className="shadow-4xl rounded-4xl bg-white/95 p-16 ring-4 ring-[#1A504C]/10 backdrop-blur-xl">
+            <div className="flex flex-col items-center">
+              <Sparkles className="mb-6 h-20 w-20" style={{ color: apollo.accent }} />
+              <p className="text-6xl font-black tracking-wider" style={{ color: apollo.primary }}>
+                Apollo 24|7
+              </p>
+              <p className="mt-3 text-3xl font-medium" style={{ color: apollo.accent }}>
+                Official Inspired Design
+              </p>
+              <p className="mt-6 text-base text-gray-500">
+                Built with love during #MurfAIVoiceAgentsChallenge
+              </p>
+            </div>
           </div>
         </motion.div>
-      </section>
+      </div>
 
+      {/* Floating Luxury Help Card */}
       <motion.div
-        initial={{ y: 30, opacity: 0 }}
+        initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="pointer-events-none fixed bottom-8 left-1/2 z-10 -translate-x-1/2"
+        transition={{ delay: 2.4 }}
+        className="fixed bottom-10 left-1/2 z-50 -translate-x-1/2"
       >
-        <div className="pointer-events-auto rounded-2xl border border-gray-200/50 bg-white/90 px-8 py-4 shadow-xl backdrop-blur-xl">
-          <p className="text-sm text-gray-600 md:text-base">
-            Need help?{' '}
+        <div
+          className="shadow-4xl rounded-full border-4 px-14 py-7 backdrop-blur-2xl"
+          style={{ background: 'rgba(255,255,255,0.97)', borderColor: apollo.primary }}
+        >
+          <p className="text-xl font-semibold" style={{ color: apollo.text }}>
+            First time with voice AI?{' '}
             <a
               href="https://docs.livekit.io/agents/start/voice-ai/"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-medium text-emerald-600 underline underline-offset-2 hover:text-emerald-700"
+              className="font-bold underline decoration-2 underline-offset-8"
+              style={{ color: apollo.accent }}
             >
-              Voice AI Quickstart
+              30-second setup guide
             </a>
           </p>
         </div>
