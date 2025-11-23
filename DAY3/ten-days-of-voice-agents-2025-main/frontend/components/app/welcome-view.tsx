@@ -1,20 +1,66 @@
+// src/components/app/welcome-view.tsx   (or wherever your path is)
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Calendar, Cloud, Heart, Mic, Sparkles, Sun, Zap } from 'lucide-react';
 import { Button } from '@/components/livekit/button';
 
-function WelcomeImage() {
+function WellnessIllustration() {
   return (
-    <svg
-      width="64"
-      height="64"
-      viewBox="0 0 64 64"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="text-fg0 mb-4 size-16"
-    >
-      <path
-        d="M15 24V40C15 40.7957 14.6839 41.5587 14.1213 42.1213C13.5587 42.6839 12.7956 43 12 43C11.2044 43 10.4413 42.6839 9.87868 42.1213C9.31607 41.5587 9 40.7957 9 40V24C9 23.2044 9.31607 22.4413 9.87868 21.8787C10.4413 21.3161 11.2044 21 12 21C12.7956 21 13.5587 21.3161 14.1213 21.8787C14.6839 22.4413 15 23.2044 15 24ZM22 5C21.2044 5 20.4413 5.31607 19.8787 5.87868C19.3161 6.44129 19 7.20435 19 8V56C19 56.7957 19.3161 57.5587 19.8787 58.1213C20.4413 58.6839 21.2044 59 22 59C22.7956 59 23.5587 58.6839 24.1213 58.1213C24.6839 57.5587 25 56.7957 25 56V8C25 7.20435 24.6839 6.44129 24.1213 5.87868C23.5587 5.31607 22.7956 5 22 5ZM32 13C31.2044 13 30.4413 13.3161 29.8787 13.8787C29.3161 14.4413 29 15.2044 29 16V48C29 48.7957 29.3161 49.5587 29.8787 50.1213C30.4413 50.6839 31.2044 51 32 51C32.7956 51 33.5587 50.6839 34.1213 50.1213C34.6839 49.5587 35 48.7957 35 48V16C35 15.2044 34.6839 14.4413 34.1213 13.8787C33.5587 13.3161 32.7956 13 32 13ZM42 21C41.2043 21 40.4413 21.3161 39.8787 21.8787C39.3161 22.4413 39 23.2044 39 24V40C39 40.7957 39.3161 41.5587 39.8787 42.1213C40.4413 42.6839 41.2043 43 42 43C42.7957 43 43.5587 42.6839 44.1213 42.1213C44.6839 41.5587 45 40.7957 45 40V24C45 23.2044 44.6839 22.4413 44.1213 21.8787C43.5587 21.3161 42.7957 21 42 21ZM52 17C51.2043 17 50.4413 17.3161 49.8787 17.8787C49.3161 18.4413 49 19.2044 49 20V44C49 44.7957 49.3161 45.5587 49.8787 46.1213C50.4413 46.6839 51.2043 47 52 47C52.7957 47 53.5587 46.6839 54.1213 46.1213C54.6839 45.5587 55 44.7957 55 44V20C55 19.2044 54.6839 18.4413 54.1213 17.8787C53.5587 17.3161 52.7957 17 52 17Z"
-        fill="currentColor"
-      />
-    </svg>
+    <div className="relative mb-8">
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
+        className="relative"
+      >
+        <div className="absolute inset-0 -z-10 blur-3xl">
+          <div className="mx-auto h-80 w-80 rounded-full bg-gradient-to-br from-emerald-400/30 via-blue-400/20 to-purple-500/30" />
+        </div>
+
+        <div className="flex flex-col items-center">
+          <div className="relative">
+            <motion.div
+              animate={{ y: [0, -12, 0] }}
+              transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
+            >
+              <Heart className="h-24 w-24 text-emerald-500 drop-shadow-2xl" fill="currentColor" />
+            </motion.div>
+
+            <motion.div
+              animate={{ y: [0, 10, 0] }}
+              transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut', delay: 1 }}
+              className="absolute -top-6 -left-8"
+            >
+              <Sun className="h-14 w-14 text-yellow-400" />
+            </motion.div>
+
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 20, ease: 'linear' }}
+              className="absolute -top-8 -right-10"
+            >
+              <Sparkles className="h-12 w-12 text-purple-400" />
+            </motion.div>
+
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ repeat: Infinity, duration: 7, delay: 2 }}
+              className="absolute bottom-2 -left-10"
+            >
+              <Cloud className="h-12 w-12 text-blue-300" />
+            </motion.div>
+
+            <motion.div
+              animate={{ y: [0, -8, 0] }}
+              transition={{ repeat: Infinity, duration: 4.5, delay: 1.5 }}
+              className="absolute right-2 bottom-4"
+            >
+              <Zap className="h-10 w-10 text-amber-400" />
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
 }
 
@@ -23,40 +69,102 @@ interface WelcomeViewProps {
   onStartCall: () => void;
 }
 
-export const WelcomeView = ({
-  startButtonText,
-  onStartCall,
-  ref,
-}: React.ComponentProps<'div'> & WelcomeViewProps) => {
+// This is the fix: Named export + forwardRef + displayName
+export const WelcomeView = React.forwardRef<
+  HTMLDivElement,
+  WelcomeViewProps & React.HTMLAttributes<HTMLDivElement>
+>(({ startButtonText, onStartCall, className, ...props }, ref) => {
   return (
-    <div ref={ref}>
-      <section className="bg-background flex flex-col items-center justify-center text-center">
-        <WelcomeImage />
+    <div
+      ref={ref}
+      className={`flex min-h-screen flex-col bg-gradient-to-b from-emerald-50 via-white to-blue-50/50 ${className || ''}`}
+      {...props}
+    >
+      <section className="flex flex-1 flex-col items-center justify-center px-6 text-center">
+        <WellnessIllustration />
 
-        <p className="text-foreground max-w-prose pt-1 leading-6 font-medium">
-          Chat live with your Health and Wellness–Oriented Voice Agent
-        </p>
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
+        >
+          <h1 className="mb-6 text-4xl leading-tight font-bold text-gray-900 md:text-5xl lg:text-6xl">
+            Your Daily Wellness Companion
+          </h1>
+          <p className="mx-auto max-w-2xl text-lg leading-relaxed font-light text-gray-600 md:text-xl">
+            A gentle voice to check in with you every day — reflecting on how you feel, setting
+            small intentions, and growing together.
+          </p>
+        </motion.div>
 
-        <Button variant="primary" size="lg" onClick={onStartCall} className="mt-6 w-64 font-mono">
-          {startButtonText}
-        </Button>
+        <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.8 }}
+          className="mt-12"
+        >
+          <Button
+            variant="primary"
+            size="lg"
+            onClick={onStartCall}
+            className="group relative transform overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 px-16 py-7 text-lg font-semibold text-white shadow-2xl transition-all duration-300 hover:scale-105 hover:from-emerald-600 hover:to-teal-700"
+          >
+            <span className="relative z-10 flex items-center gap-4">
+              <Mic className="h-7 w-7" />
+              {startButtonText}
+            </span>
+            <motion.div
+              className="absolute inset-0 bg-white/25"
+              initial={{ x: '-100%' }}
+              whileHover={{ x: '100%' }}
+              transition={{ duration: 0.7 }}
+            />
+          </Button>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.9 }}
+          className="mt-16 flex flex-wrap justify-center gap-8 text-sm text-gray-600 md:text-base"
+        >
+          <div className="flex items-center gap-3">
+            <Calendar className="h-5 w-5 text-emerald-600" />
+            <span>Daily gentle check-ins</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <Heart className="h-5 w-5 text-rose-500" />
+            <span>Remembers your journey</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <Sparkles className="h-5 w-5 text-purple-600" />
+            <span>Small steps, real progress</span>
+          </div>
+        </motion.div>
       </section>
 
-      <div className="fixed bottom-5 left-0 flex w-full items-center justify-center">
-        <p className="text-muted-foreground max-w-prose pt-1 text-xs leading-5 font-normal text-pretty md:text-sm">
-          Each day, the agent checks in with the user about their mood and goals, has a short
-          conversation, and stores the results in a JSON file so it can refer back to previous days.{' '}
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://docs.livekit.io/agents/start/voice-ai/"
-            className="underline"
-          >
-            Voice AI quickstart
-          </a>
-          .
-        </p>
-      </div>
+      <motion.div
+        initial={{ y: 30, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 1.2 }}
+        className="pointer-events-none fixed bottom-8 left-1/2 z-10 -translate-x-1/2"
+      >
+        <div className="pointer-events-auto rounded-2xl border border-gray-200/50 bg-white/90 px-8 py-4 shadow-xl backdrop-blur-xl">
+          <p className="text-sm text-gray-600 md:text-base">
+            Need help?{' '}
+            <a
+              href="https://docs.livekit.io/agents/start/voice-ai/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-emerald-600 underline underline-offset-2 hover:text-emerald-700"
+            >
+              Voice AI Quickstart
+            </a>
+          </p>
+        </div>
+      </motion.div>
     </div>
   );
-};
+});
+
+WelcomeView.displayName = 'WelcomeView';
