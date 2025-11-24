@@ -1,15 +1,7 @@
 // components/app/welcome-view.tsx
 import React from 'react';
 import { motion } from 'framer-motion';
-import {
-  Activity,
-  Calendar,
-  HeartPulse,
-  HospitalIcon,
-  PhoneCall,
-  ShieldCheck,
-  Sparkles,
-} from 'lucide-react';
+import { Activity, Calendar, HeartPulse, PhoneCall, ShieldCheck, Sparkles } from 'lucide-react';
 import { Button } from '@/components/livekit/button';
 
 const apollo = {
@@ -35,8 +27,8 @@ const BrandCard = ({ delay, position, brand, color, icon: Icon }: any) => (
         boxShadow: '0 20px 40px rgba(0,0,0,0.6), inset 0 4px 20px rgba(255,255,255,0.1)',
       }}
     >
-      <div className="flex flex-col items-center gap-3 px-12">
-        <div className="rounded-full p-14" style={{ backgroundColor: color }}>
+      <div className="flex flex-col items-center gap-3">
+        <div className="rounded-full p-4" style={{ backgroundColor: color }}>
           {Icon && <Icon className="h-10 w-10 text-white" />}
         </div>
         <p className="text-2xl font-black tracking-wider text-white">{brand}</p>
@@ -80,11 +72,10 @@ export const WelcomeView = React.forwardRef<
         delay={1.7}
         position={{
           initial: { x: 300, y: -150 },
-          animate: { x: '74vw', y: '66vh' },
+          animate: { x: '80vw', y: '68vh' },
         }}
         brand="PharmEasy"
         color="#E91E63"
-        icon={HeartPulse}
       />
 
       <BrandCard
@@ -95,7 +86,6 @@ export const WelcomeView = React.forwardRef<
         }}
         brand="Tata 1mg"
         color="#FF6D00"
-        icon={HospitalIcon}
       />
 
       <BrandCard
