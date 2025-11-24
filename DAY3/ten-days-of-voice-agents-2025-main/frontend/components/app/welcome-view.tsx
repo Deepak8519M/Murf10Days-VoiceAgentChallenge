@@ -16,250 +16,177 @@ import { Button } from '@/components/livekit/button';
 
 // frontend/components/app/welcome-view.tsx
 
-// frontend/components/app/welcome-view.tsx
-
 const apollo = {
   primary: '#1A504C',
   accent: '#00D1C1',
   bg: '#0B1218',
-  text: '#E2E8F0',
 };
 
-// Levitating Brand Card with 3D float + glow + parallax
-const BrandCard = ({ delay, x, y, brand, color, icon: Icon }: any) => {
-  const float = {
-    y: [0, -20, 0],
-    rotate: [0, 3, -3, 0],
-    transition: {
-      y: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
-      rotate: { duration: 8, repeat: Infinity, ease: 'easeInOut' },
-    },
-  };
-
-  return (
+// FLOATING BRAND CARD — WORKS 100%
+const FloatingBrandCard = ({ delay, left, top, brand, color, icon: Icon }: any) => (
+  <motion.div
+    initial={{ opacity: 0, scale: 0 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ delay, duration: 1.2, type: 'spring', stiffness: 100 }}
+    className="pointer-events-none absolute z-20 hidden sm:block"
+    style={{ left, top }}
+  >
     <motion.div
-      initial={{ opacity: 0, scale: 0.6, x: x.initial, y: y.initial }}
       animate={{
-        opacity: 1,
-        scale: 1,
-        x: x.final,
-        y: y.final,
-        ...float,
+        y: [-20, 20, -20],
+        rotate: [-4, 4, -4],
       }}
       transition={{
-        delay,
-        duration: 1.8,
-        type: 'spring',
-        stiffness: 80,
-        damping: 15,
+        y: { duration: 7, repeat: Infinity, ease: 'easeInOut' },
+        rotate: { duration: 14, repeat: Infinity, ease: 'easeInOut' },
       }}
-      className="pointer-events-none absolute z-20"
-      style={{ filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.6))' }}
-      whileHover={{ scale: 1.1, rotate: 5 }}
+      className="rounded-2xl p-1"
+      style={{ background: `linear-gradient(135deg, ${color}30, ${color}60)` }}
     >
-      <div
-        className="relative rounded-3xl p-1"
-        style={{
-          background: `linear-gradient(135deg, ${color}20, ${color}40)`,
-        }}
-      >
-        <div className="rounded-3xl border border-white/30 bg-black/40 px-19 py-10 backdrop-blur-3xl">
-          <div className="flex flex-col items-center gap-3">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-              className="rounded-full p-12"
-              style={{ backgroundColor: color }}
-            >
-              {Icon && <Icon className="h-12 w-12 text-white" />}
-            </motion.div>
-            <p className="text-2xl font-black tracking-wider text-white drop-shadow-md">{brand}</p>
-            <p className="text-xs font-light text-cyan-300">
-              {brand === 'Murf AI' ? 'Powered By' : 'Design Inspired'}
-            </p>
+      <div className="rounded-2xl border border-white/20 bg-black/50 px-12 py-5 backdrop-blur-2xl">
+        <div className="flex flex-col items-center gap-3">
+          <div className="rounded-full p-8" style={{ backgroundColor: color }}>
+            <Icon className="h-10 w-10 text-white" />
           </div>
+          <p className="text-lg font-bold text-white">{brand}</p>
+          <p className="text-xs text-cyan-300">{brand === 'Murf AI' ? 'Powered By' : 'Inspired'}</p>
         </div>
       </div>
     </motion.div>
-  );
-};
+  </motion.div>
+);
 
 export const WelcomeView = React.forwardRef<
   HTMLDivElement,
   { startButtonText: string; onStartCall: () => void }
 >(({ startButtonText, onStartCall }, ref) => {
   return (
-    <div
-      ref={ref}
-      className="relative min-h-screen w-screen overflow-hidden"
-      style={{ backgroundColor: apollo.bg }}
-    >
-      {/* Gradient Top Bar */}
+    <div ref={ref} className="relative min-h-screen w-screen overflow-hidden bg-[#0B1218]">
+      {/* Top Gradient Bar */}
       <div
         className="h-1 w-full"
         style={{ background: `linear-gradient(90deg, ${apollo.primary}, ${apollo.accent})` }}
       />
 
-      {/* Floating Glowing Orb Background */}
-      <motion.div
-        animate={{
-          scale: [1, 1.3, 1],
-          opacity: [0.2, 0.4, 0.2],
-        }}
-        transition={{ duration: 20, repeat: Infinity }}
-        className="fixed inset-0 -z-10"
+      {/* Background Glow */}
+      <div
+        className="fixed inset-0 -z-10 opacity-20"
         style={{
-          background: `radial-gradient(circle at 30% 70%, ${apollo.accent}10, transparent 60%)`,
+          background: `radial-gradient(circle at 20% 80%, ${apollo.accent}, transparent 70%)`,
         }}
       />
 
-      {/* LEVITATING BRAND CARDS — TRUE 3D FLOAT */}
-      <BrandCard
-        delay={1.2}
-        x={{ initial: -600, final: '8vw' }}
-        y={{ initial: -400, final: '18vh' }}
+      {/* 4 FLOATING CARDS — NOW 100% WORKING */}
+      <FloatingBrandCard
+        delay={0.8}
+        left="6vw"
+        top="14vh"
         brand="Apollo 24|7"
         color="#1A504C"
         icon={HeartPulse}
       />
-      <BrandCard
-        delay={1.5}
-        x={{ initial: 700, final: '72vw' }}
-        y={{ initial: -500, final: '62vh' }}
+      <FloatingBrandCard
+        delay={1.1}
+        left="82vw"
+        top="16vh"
         brand="PharmEasy"
         color="#E91E63"
         icon={HeartPulse}
       />
-      <BrandCard
-        delay={1.8}
-        x={{ initial: -700, final: '12vw' }}
-        y={{ initial: 500, final: '64vh' }}
+      <FloatingBrandCard
+        delay={1.4}
+        left="8vw"
+        top="58vh"
         brand="Tata 1mg"
         color="#FF6D00"
         icon={HospitalIcon}
       />
-      <BrandCard
-        delay={2.1}
-        x={{ initial: 800, final: '78vw' }}
-        y={{ initial: -600, final: '26vh' }}
+      <FloatingBrandCard
+        delay={1.7}
+        left="80vw"
+        top="58vh"
         brand="Murf AI"
         color="#8B5CF6"
         icon={Sparkles}
       />
 
       {/* Main Content */}
-      <div className="relative z-30 flex min-h-screen flex-col items-center justify-center px-6 py-16">
+      <div className="relative z-30 flex min-h-screen flex-col items-center justify-center px-6 py-16 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="text-center"
+          transition={{ delay: 0.4 }}
         >
-          <h1
-            className="bg-gradient-to-br from-[#00D1C1] via-[#1A504C] to-[#00D1C1] bg-clip-text font-black tracking-tighter text-transparent"
-            style={{ fontSize: 'clamp(3.5rem, 12vw, 11rem)', lineHeight: '1' }}
-          >
+          <h1 className="bg-gradient-to-r from-cyan-400 to-teal-500 bg-clip-text text-5xl leading-tight font-black tracking-tight text-transparent md:text-7xl lg:text-8xl">
             Daily Health
             <br />
-            Check‑in
+            Check-in
           </h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2 }}
-            className="mx-auto mt-8 max-w-4xl leading-relaxed font-light text-gray-300"
-            style={{ fontSize: 'clamp(1.1rem, 4vw, 2.2rem)' }}
-          >
-            Your personal voice companion — trusted like <strong>Apollo</strong>, easy like{' '}
-            <strong>PharmEasy</strong>, reliable like <strong>Tata 1mg</strong>, and powered by the{' '}
-            <strong>fastest TTS</strong>: <strong>Murf Falcon</strong>.
-          </motion.p>
+          <p className="mt-6 max-w-3xl text-lg leading-relaxed text-gray-300 md:text-xl">
+            Your personal voice companion — trusted like <strong>Apollo 24|7</strong>,
+            <br className="hidden md:block" />
+            easy like <strong>PharmEasy</strong>, reliable like <strong>Tata 1mg</strong>,
+            <br className="hidden md:block" />
+            powered by the <strong>fastest TTS</strong>: <strong>Murf Falcon</strong>.
+          </p>
         </motion.div>
 
-        {/* Levitating Start Button */}
-        <motion.div
-          animate={{ y: [0, -15, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-          className="mt-20"
-        >
+        {/* STATIC BUTTON — NO FLOATING */}
+        <div className="mt-16">
           <Button
             onClick={onStartCall}
-            className="group relative overflow-hidden rounded-full text-3xl font-bold transition-all duration-700 hover:scale-110"
+            className="rounded-full text-xl font-bold transition-all hover:scale-105 hover:shadow-2xl"
             style={{
               background: `linear-gradient(135deg, ${apollo.primary}, ${apollo.accent})`,
-              padding: '2rem 6rem',
-              boxShadow: '0 20px 40px rgba(0,209,193,0.4), inset 0 4px 20px rgba(255,255,255,0.2)',
+              padding: '1.6rem 5rem',
+              boxShadow: '0 20px 50px rgba(0,209,193,0.4)',
             }}
           >
-            <span className="relative z-10 flex items-center gap-6">
-              <PhoneCall className="h-12 w-12" />
+            <span className="flex items-center gap-5">
+              <PhoneCall className="h-10 w-10" />
               {startButtonText}
             </span>
-            <motion.div
-              className="absolute inset-0 bg-white/40"
-              animate={{ x: ['-200%', '200%'] }}
-              transition={{ duration: 3, repeat: Infinity }}
-            />
           </Button>
-        </motion.div>
+        </div>
 
-        {/* Feature Cards with Hover Lift */}
-        <motion.div
-          initial={{ opacity: 0, y: 60 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.8 }}
-          className="mt-32 grid w-full max-w-6xl grid-cols-2 gap-12 md:grid-cols-4"
-        >
+        {/* Feature Icons */}
+        <div className="mt-24 grid w-full max-w-5xl grid-cols-2 gap-10 md:grid-cols-4">
           {[
             { icon: HeartPulse, label: 'Mood & Energy', color: '#00D1C1' },
-            { icon: Calendar, label: 'Daily Check‑ins', color: '#1A504C' },
+            { icon: Calendar, label: 'Daily Check-ins', color: '#1A504C' },
             { icon: ShieldCheck, label: '100% Private', color: '#8B5CF6' },
             { icon: Activity, label: 'Real Progress', color: '#FF6D00' },
           ].map((item, i) => (
-            <motion.div
-              key={i}
-              whileHover={{ y: -20, scale: 1.05 }}
-              transition={{ type: 'spring', stiffness: 300 }}
-              className="text-center"
-            >
-              <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 3, repeat: Infinity, delay: i * 0.3 }}
-                className="mx-auto mb-6 flex h-40 w-40 items-center justify-center rounded-3xl bg-white/10 backdrop-blur-2xl"
-                style={{ boxShadow: '0 15px 30px rgba(0,0,0,0.5)' }}
-              >
-                <item.icon className="h-24 w-24" style={{ color: item.color }} />
-              </motion.div>
-              <p className="text-lg font-medium text-gray-200">{item.label}</p>
-            </motion.div>
+            <div key={i} className="flex flex-col items-center">
+              <div className="mb-4 flex h-24 w-24 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-xl">
+                <item.icon className="h-12 w-12" style={{ color: item.color }} />
+              </div>
+              <p className="text-sm font-medium text-gray-300 md:text-base">{item.label}</p>
+            </div>
           ))}
+        </div>
+
+        {/* Floating Help Bubble */}
+        <motion.div
+          animate={{ y: [0, -8, 0] }}
+          transition={{ duration: 3.5, repeat: Infinity }}
+          className="fixed bottom-6 left-1/2 -translate-x-1/2"
+        >
+          <div className="rounded-full bg-white/10 px-6 py-3 backdrop-blur-xl">
+            <p className="text-sm text-cyan-200">
+              First time?{' '}
+              <a
+                href="https://docs.livekit.io/agents/start/voice-ai/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold underline"
+              >
+                Quick setup
+              </a>
+            </p>
+          </div>
         </motion.div>
       </div>
-
-      {/* Floating Help Bubble */}
-      <motion.div
-        animate={{ y: [0, -10, 0] }}
-        transition={{ duration: 3, repeat: Infinity }}
-        className="fixed bottom-10 left-1/2 z-50 -translate-x-1/2"
-      >
-        <div
-          className="rounded-full bg-gradient-to-r from-cyan-500/20 to-teal-500/20 px-10 py-5 shadow-2xl backdrop-blur-xl"
-          style={{ border: `2px solid ${apollo.accent}` }}
-        >
-          <p className="text-center font-medium text-cyan-100">
-            First time?{' '}
-            <a
-              href="https://docs.livekit.io/agents/start/voice-ai/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-bold underline"
-              style={{ color: apollo.accent }}
-            >
-              Quick setup
-            </a>
-          </p>
-        </div>
-      </motion.div>
     </div>
   );
 });
