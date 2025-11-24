@@ -1,0 +1,177 @@
+// components/app/welcome-view.tsx
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Activity, Calendar, HeartPulse, PhoneCall, ShieldCheck, Sparkles } from 'lucide-react';
+import { Button } from '@/components/livekit/button';
+
+// Apollo 24|7 Dark Premium Palette
+const apollo = {
+  bg: '#0B1218', // Deep midnight black
+  card: '#111A20', // Glass card
+  primary: '#1A504C', // Original Apollo teal
+  accent: '#00D1C1', // Brighter teal glow (premium pop)
+  text: '#E2E8F0',
+  muted: '#94A3B8',
+};
+
+export const WelcomeView = React.forwardRef<
+  HTMLDivElement,
+  { startButtonText: string; onStartCall: () => void }
+>(({ startButtonText, onStartCall }, ref) => {
+  return (
+    <div
+      ref={ref}
+      className="min-h-screen w-full overflow-hidden"
+      style={{ backgroundColor: apollo.bg }}
+    >
+      {/* Top gradient line */}
+      <div
+        className="h-1 w-full"
+        style={{ background: `linear-gradient(90deg, ${apollo.primary}, ${apollo.accent})` }}
+      />
+
+      {/* Subtle animated glow orbs */}
+      <div className="pointer-events-none fixed inset-0">
+        <motion.div
+          animate={{ y: [-100, 100, -100] }}
+          transition={{ repeat: Infinity, duration: 25, ease: 'easeInOut' }}
+          className="absolute top-20 left-10 h-96 w-96 rounded-full opacity-30 blur-3xl"
+          style={{ background: `radial-gradient(circle, ${apollo.accent}40, transparent 70%)` }}
+        />
+        <motion.div
+          animate={{ y: [100, -100, 100] }}
+          transition={{ repeat: Infinity, duration: 30, ease: 'easeInOut' }}
+          className="absolute right-20 bottom-20 h-80 w-80 rounded-full opacity-20 blur-3xl"
+          style={{ background: `radial-gradient(circle, ${apollo.primary}50, transparent 70%)` }}
+        />
+      </div>
+
+      <div className="relative flex min-h-screen flex-col items-center justify-center px-6 py-16">
+        {/* Hero – Perfectly sized for 100% zoom */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="text-center"
+        >
+          <h1 className="bg-gradient-to-br from-[#1A504C] to-[#00D1C1] bg-clip-text text-6xl leading-tight font-black tracking-tighter text-transparent md:text-8xl lg:text-9xl">
+            Daily Health
+            <br />
+            Check‑in
+          </h1>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="mx-auto mt-8 max-w-3xl text-lg leading-relaxed font-light text-gray-300 md:text-2xl"
+          >
+            Your personal voice companion that truly listens, remembers how you feel, and gently
+            guides you toward a healthier tomorrow.
+          </motion.p>
+        </motion.div>
+
+        {/* Premium CTA – Perfect size */}
+        <motion.div
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 1, type: 'spring', stiffness: 120 }}
+          className="mt-16"
+        >
+          <Button
+            onClick={onStartCall}
+            className="group relative overflow-hidden rounded-full px-20 py-10 text-2xl font-bold text-white shadow-2xl transition-all duration-500 hover:shadow-[0_0_60px_rgba(0,209,193,0.5)] md:px-32 md:py-12 md:text-3xl"
+            style={{
+              background: `linear-gradient(135deg, ${apollo.primary}, ${apollo.accent})`,
+              minWidth: '380px',
+            }}
+          >
+            <span className="relative z-10 flex items-center justify-center gap-5">
+              <PhoneCall className="h-10 w-10 md:h-12 md:w-12" />
+              {startButtonText}
+            </span>
+            <motion.div
+              className="absolute inset-0 bg-white/20"
+              animate={{ x: ['-100%', '100%'] }}
+              transition={{ duration: 3, repeat: Infinity }}
+            />
+          </Button>
+        </motion.div>
+
+        {/* Glassmorphic Feature Cards */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.4 }}
+          className="mt-24 grid grid-cols-2 gap-10 md:grid-cols-4"
+        >
+          {[
+            { icon: HeartPulse, label: 'Mood & Energy' },
+            { icon: Calendar, label: 'Daily Check‑ins' },
+            { icon: ShieldCheck, label: '100% Private' },
+            { icon: Activity, label: 'Real Progress' },
+          ].map((item, i) => (
+            <motion.div key={i} whileHover={{ y: -8 }} className="group text-center">
+              <div
+                className="rounded-3xl p-10 shadow-xl backdrop-blur-xl transition-all duration-500 group-hover:shadow-2xl"
+                style={{
+                  background: apollo.card + 'CC',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                }}
+              >
+                <item.icon className="mx-auto h-16 w-16" style={{ color: apollo.accent }} />
+              </div>
+              <p className="mt-6 text-lg font-medium" style={{ color: apollo.text }}>
+                {item.label}
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Apollo Seal – Minimal & Classy */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.8 }}
+          className="mt-32 text-center"
+        >
+          <div className="inline-flex flex-col items-center rounded-3xl bg-gradient-to-b from-white/10 to-white/5 p-12 backdrop-blur-xl">
+            <Sparkles className="mb-4 h-12 w-12" style={{ color: apollo.accent }} />
+            <p className="text-4xl font-black tracking-wider" style={{ color: apollo.accent }}>
+              Apollo 24|7
+            </p>
+            <p className="text-xl font-light text-gray-400">Inspired Design</p>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Floating Help – Dark mode */}
+      <motion.div
+        initial={{ y: 40, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 2 }}
+        className="fixed bottom-8 left-1/2 z-50 -translate-x-1/2"
+      >
+        <div
+          className="rounded-full px-10 py-5 shadow-2xl backdrop-blur-xl"
+          style={{ background: apollo.card + 'E6', border: `2px solid ${apollo.accent}` }}
+        >
+          <p className="text-lg font-medium" style={{ color: apollo.text }}>
+            First time?{' '}
+            <a
+              href="https://docs.livekit.io/agents/start/voice-ai/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold underline"
+              style={{ color: apollo.accent }}
+            >
+              Quick setup →
+            </a>
+          </p>
+        </div>
+      </motion.div>
+    </div>
+  );
+});
+
+WelcomeView.displayName = 'WelcomeView';
