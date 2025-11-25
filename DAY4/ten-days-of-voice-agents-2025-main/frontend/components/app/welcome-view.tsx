@@ -101,7 +101,7 @@ export const WelcomeView = ({
             ].map((item, i) => (
               <div
                 key={i}
-                className={`group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-lg transition-all duration-500 hover:scale-105 hover:bg-white/10`}
+                className={`group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-lg transition-all duration-500 hover:scale-105 hover:bg-white/10`}
                 style={{ animationDelay: `${i * 200}ms` }}
               >
                 <div
@@ -109,7 +109,7 @@ export const WelcomeView = ({
                 />
                 <div className="relative z-10 space-y-4">
                   <div
-                    className={`w-fit rounded-xl bg-gradient-to-br p-4 ${item.color} text-white`}
+                    className={`w-fit rounded-xl bg-gradient-to-br p-10 mx-auto ${item.color} text-white`}
                   >
                     {item.icon}
                   </div>
