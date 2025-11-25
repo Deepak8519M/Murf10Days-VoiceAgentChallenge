@@ -76,6 +76,10 @@ You can edit this in VS Code directly.
 
 ```cmd
 uv run python src/agent.py download-files
+
+-----next-----
+
+uv run python src/agent.py dev
 ```
 
 ---
