@@ -1,17 +1,15 @@
-// components/WelcomeView.tsx  (or wherever you keep it)
+// components/app/welcome-view.tsx
 import { useEffect, useState } from 'react';
 import { Brain, Code2, Mic, Sparkles, Volume2 } from 'lucide-react';
 import { Button } from '@/components/livekit/button';
 
-interface WelcomeViewProps {
-  startButtonText?: string;
-  onStartCall: () => void;
-}
-
 export const WelcomeView = ({
   startButtonText = 'Start Voice Session',
   onStartCall,
-}: WelcomeViewProps) => {
+}: {
+  startButtonText?: string;
+  onStartCall: () => void;
+}) => {
   const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
@@ -19,15 +17,15 @@ export const WelcomeView = ({
   }, []);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Animated Background Waves */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="animate-blob absolute -top-40 -left-40 h-80 w-80 rounded-full bg-purple-500 mix-blend-multiply blur-3xl filter" />
-        <div className="animation-delay-2000 animate-blob absolute -top-40 -right-40 h-80 w-80 rounded-full bg-pink-500 mix-blend-multiply blur-3xl filter" />
-        <div className="animation-delay-4000 animate-blob absolute -bottom-40 left-40 h-80 w-80 rounded-full bg-indigo-500 mix-blend-multiply blur-3xl filter" />
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-gray-950 via-purple-950 to-slate-950">
+      {/* UPGRADED PREMIUM BACKGROUND BLOBS (exactly from my last perfect version) */}
+      <div className="absolute inset-0">
+        <div className="absolute -top-40 -left-40 h-96 w-96 animate-pulse rounded-full bg-purple-600 opacity-50 mix-blend-multiply blur-3xl" />
+        <div className="animation-delay-2000 absolute top-20 -right-32 h-96 w-96 animate-pulse rounded-full bg-pink-600 opacity-40 mix-blend-multiply blur-3xl" />
+        <div className="animation-delay-4000 absolute -bottom-40 left-1/3 h-80 w-80 animate-pulse rounded-full bg-indigo-600 opacity-30 mix-blend-multiply blur-3xl" />
       </div>
 
-      {/* Sound Wave Visualizer (Premium Touch) */}
+      {/* Sound Wave Visualizer */}
       <div className="pointer-events-none absolute inset-x-0 top-32 flex justify-center">
         <div className="flex gap-2">
           {[0, 1, 2, 3, 4].map((i) => (
@@ -101,7 +99,7 @@ export const WelcomeView = ({
             ].map((item, i) => (
               <div
                 key={i}
-                className={`group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-lg transition-all duration-500 hover:scale-105 hover:bg-white/10`}
+                className="group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-lg transition-all duration-500 hover:scale-105 hover:bg-white/10"
                 style={{ animationDelay: `${i * 200}ms` }}
               >
                 <div
@@ -109,7 +107,7 @@ export const WelcomeView = ({
                 />
                 <div className="relative z-10 space-y-4">
                   <div
-                    className={`w-fit rounded-xl bg-gradient-to-br p-10 mx-auto ${item.color} text-white`}
+                    className={`mx-auto w-fit rounded-xl bg-gradient-to-br p-10 ${item.color} text-white`}
                   >
                     {item.icon}
                   </div>
@@ -148,7 +146,7 @@ export const WelcomeView = ({
         </div>
       </div>
 
-      {/* Tailwind Animations (add to globals.css or tailwind.config if not already there) */}
+      {/* Animations */}
       <style jsx>{`
         @keyframes blob {
           0%,
