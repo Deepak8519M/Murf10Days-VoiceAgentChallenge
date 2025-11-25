@@ -1,0 +1,20 @@
+[
+  {
+    "id": "variables",
+    "title": "Variables",
+    "summary": "Variables are used to store data that can be reused throughout your program. They have a name and a value, and you can change the value anytime.",
+    "sample_question": "What is a variable and why do we use them in programming?"
+  },
+  {
+    "id": "loops",
+    "title": "Loops",
+    "summary": "Loops allow you to repeat a block of code multiple times. The two main types are 'for' loops (when you know how many times) and 'while' loops (when you don't).",
+    "sample_question": "Explain the difference between a for loop and a while loop."
+  },
+  {
+    "id": "functions",
+    "title": "Functions",
+    "summary": "Functions are reusable blocks of code that perform a specific task. You define them once and can call them anywhere with different inputs.",
+    "sample_question": "What is a function and why should you use them?"
+  }
+]
