@@ -1,1 +1,160 @@
 
+// components/WelcomeView.tsx
+import { useEffect, useState } from 'react';
+import { ArrowRight, ChevronRight, Headphones, Mail, Sparkles, Store, Timer } from 'lucide-react';
+import { Button } from '@/components/livekit/button';
+
+export const WelcomeView = ({
+  startButtonText = 'Talk to Zomato AI',
+  onStartCall,
+}: {
+  startButtonText?: string;
+  onStartCall: () => void;
+}) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  return (
+    <div className="relative min-h-screen overflow-hidden bg-black font-sans">
+      {/* Cinematic Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-red-950 via-black via-70% to-red-900" />
+
+      {/* Animated Hero Blobs */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-0 left-0 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 animate-pulse rounded-full bg-red-600/40 blur-3xl" />
+        <div className="animation-delay-2000 absolute right-0 bottom-0 h-[900px] w-[900px] translate-x-1/3 translate-y-1/3 animate-pulse rounded-full bg-orange-600/30 blur-3xl" />
+        <div className="animation-delay-4000 absolute top-1/2 left-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 animate-pulse rounded-full bg-red-700/20 blur-3xl" />
+      </div>
+
+      {/* Subtle Grid */}
+      <div className="bg-grid-white/5 bg-grid-32 absolute inset-0" />
+
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6">
+        <div
+          className={`w-full max-w-7xl space-y-24 text-center transition-all duration-1500 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}
+        >
+          {/* Hero Logo – Zomato Official Style */}
+          <div className="relative">
+            <div className="absolute inset-0 animate-ping rounded-full bg-red-600/40 blur-3xl" />
+            <div className="shadow-3xl relative flex h-48 w-48 items-center justify-center rounded-full bg-white ring-12 ring-red-600/30">
+              <div className="flex h-40 w-40 items-center justify-center rounded-full bg-red-600 shadow-2xl">
+                <Store className="h-24 w-24 text-white" strokeWidth={3.5} />
+              </div>
+            </div>
+            <div className="absolute -inset-12 rounded-full bg-red-600/20 blur-3xl" />
+          </div>
+
+          {/* Hero Text – Cinematic */}
+          <div className="space-y-8">
+            <h1 className="bg-gradient-to-r from-white via-white to-red-200 bg-clip-text text-7xl leading-none font-black tracking-tighter text-transparent md:text-9xl lg:text-[10rem]">
+              ZOMATO AI
+            </h1>
+            <p className="mx-auto max-w-4xl text-2xl leading-snug font-light text-gray-300 md:text-4xl lg:text-5xl">
+              Meet <span className="font-bold text-red-400 drop-shadow-lg">Aarav</span> — The
+              world’s first voice SDR for restaurants
+            </p>
+            <p className="mx-auto max-w-2xl text-lg text-gray-400 md:text-xl">
+              Books demos • Answers real Zomato FAQs • Saves leads instantly • Powered by Murf
+              Falcon
+            </p>
+          </div>
+
+          {/* Premium Feature Cards – Glassmorphism */}
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
+            {[
+              {
+                icon: Timer,
+                title: 'Instant Demo Booking',
+                desc: 'Pick a time — it’s booked. Calendar invite sent.',
+              },
+              {
+                icon: Mail,
+                title: 'Lead Saved Every Call',
+                desc: 'JSON + personalized follow-up email generated automatically',
+              },
+              {
+                icon: Sparkles,
+                title: 'Real Zomato Knowledge',
+                desc: 'Trained on official partner FAQs — never makes up answers',
+              },
+            ].map((f, i) => (
+              <div
+                key={i}
+                className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-2xl transition-all duration-500 hover:scale-105 hover:border-red-500/40 hover:bg-white/10"
+                style={{ animationDelay: `${i * 150}ms` }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-red-600/20 to-orange-600/10 opacity-0 transition-opacity group-hover:opacity-100" />
+                <div className="relative z-10 space-y-6">
+                  <div className="flex justify-center">
+                    <div className="rounded-2xl bg-red-600/20 p-6 ring-8 ring-red-600/10">
+                      <f.icon className="h-16 w-16 text-red-400" />
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white md:text-3xl">{f.title}</h3>
+                  <p className="leading-relaxed text-gray-300">{f.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Ultra Premium CTA */}
+          <div className="pt-12">
+            <Button
+              onClick={onStartCall}
+              className="group shadow-3xl relative overflow-hidden rounded-full bg-gradient-to-r from-red-600 to-red-700 px-24 py-10 text-4xl font-black tracking-wider text-white transition-all duration-700 hover:scale-110 hover:from-red-500 hover:to-orange-600 hover:shadow-red-600/60"
+            >
+              <span className="relative z-10 flex items-center gap-8">
+                <Headphones className="h-16 w-16 transition-all group-hover:scale-125 group-hover:rotate-12" />
+                {startButtonText}
+                <ChevronRight className="h-14 w-14 transition-transform group-hover:translate-x-6" />
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-red-400 to-orange-500 opacity-0 transition-opacity group-hover:opacity-70" />
+              <div className="absolute -inset-1 rounded-full bg-red-600/50 opacity-0 blur-xl transition-opacity group-hover:opacity-100" />
+            </Button>
+          </div>
+
+          {/* Footer – Premium */}
+          <div className="pt-20">
+            <p className="text-xl font-medium text-gray-400">
+              Powered by{' '}
+              <span className="bg-gradient-to-r from-red-400 via-white to-orange-400 bg-clip-text text-2xl font-black text-transparent">
+                Murf Falcon
+              </span>{' '}
+              — The fastest, most natural Indian voice on earth
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Tailwind Grid + Animations */}
+      <style jsx>{`
+        @keyframes pulse-slow {
+          0%,
+          100% {
+            opacity: 0.3;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.5;
+            transform: scale(1.05);
+          }
+        }
+        .animate-pulse {
+          animation: pulse-slow 8s ease-in-out infinite;
+        }
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+        .bg-grid-32 {
+          background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 .5H31.5V32' stroke='%23ffffff' stroke-opacity='0.05'/%3E%3C/svg%3E");
+        }
+      `}</style>
+    </div>
+  );
+};
