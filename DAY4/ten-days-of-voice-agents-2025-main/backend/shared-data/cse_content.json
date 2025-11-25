@@ -1,0 +1,20 @@
+[
+    {
+        "id": "variables",
+        "title": "Variables",
+        "summary": "Variables are named containers that store data in memory. They have a name, a type, and a value that can change during execution. Example: `age = 25`",
+        "sample_question": "What is a variable in programming and why do we use them?"
+    },
+    {
+        "id": "loops",
+        "title": "Loops",
+        "summary": "Loops allow you to repeat a block of code multiple times. There are two main types: 'for' loops (known iterations) and 'while' loops (condition-based).",
+        "sample_question": "Explain the difference between a for loop and a while loop with an example."
+    },
+    {
+        "id": "functions",
+        "title": "Functions",
+        "summary": "Functions are reusable blocks of code that perform a specific task. They help organize code, reduce repetition, and improve readability. You define them once and call them anywhere.",
+        "sample_question": "What is a function? Why should we use functions in our code?"
+    }
+]
