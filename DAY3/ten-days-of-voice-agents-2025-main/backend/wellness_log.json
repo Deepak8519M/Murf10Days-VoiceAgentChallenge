@@ -18,5 +18,25 @@
       "Complete the DSM model"
     ],
     "summary": "Feeling better with 6 out of 10 energy."
+  },
+  {
+    "date": "2025-11-24",
+    "timestamp": "2025-11-24T16:18:34.248703",
+    "mood": "fine",
+    "energy": "somewhere between",
+    "goals": [
+      "read 3-4 pages of a book"
+    ],
+    "summary": "Feeling fine with somewhere between energy."
+  },
+  {
+    "date": "2025-11-24",
+    "timestamp": "2025-11-24T16:20:44.185163",
+    "mood": "good",
+    "energy": "4-5 out of 10",
+    "goals": [
+      "complete a project"
+    ],
+    "summary": "Feeling good with 4-5 out of 10 energy."
   }
 ]
