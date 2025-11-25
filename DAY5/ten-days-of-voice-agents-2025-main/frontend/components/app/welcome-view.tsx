@@ -1,61 +1,160 @@
+// components/WelcomeView.tsx
+import { useEffect, useState } from 'react';
+import { ArrowRight, Headphones, Mail, Mic, Sparkles, Store, Timer } from 'lucide-react';
 import { Button } from '@/components/livekit/button';
 
-function WelcomeImage() {
-  return (
-    <svg
-      width="64"
-      height="64"
-      viewBox="0 0 64 64"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="text-fg0 mb-4 size-16"
-    >
-      <path
-        d="M15 24V40C15 40.7957 14.6839 41.5587 14.1213 42.1213C13.5587 42.6839 12.7956 43 12 43C11.2044 43 10.4413 42.6839 9.87868 42.1213C9.31607 41.5587 9 40.7957 9 40V24C9 23.2044 9.31607 22.4413 9.87868 21.8787C10.4413 21.3161 11.2044 21 12 21C12.7956 21 13.5587 21.3161 14.1213 21.8787C14.6839 22.4413 15 23.2044 15 24ZM22 5C21.2044 5 20.4413 5.31607 19.8787 5.87868C19.3161 6.44129 19 7.20435 19 8V56C19 56.7957 19.3161 57.5587 19.8787 58.1213C20.4413 58.6839 21.2044 59 22 59C22.7956 59 23.5587 58.6839 24.1213 58.1213C24.6839 57.5587 25 56.7957 25 56V8C25 7.20435 24.6839 6.44129 24.1213 5.87868C23.5587 5.31607 22.7956 5 22 5ZM32 13C31.2044 13 30.4413 13.3161 29.8787 13.8787C29.3161 14.4413 29 15.2044 29 16V48C29 48.7957 29.3161 49.5587 29.8787 50.1213C30.4413 50.6839 31.2044 51 32 51C32.7956 51 33.5587 50.6839 34.1213 50.1213C34.6839 49.5587 35 48.7957 35 48V16C35 15.2044 34.6839 14.4413 34.1213 13.8787C33.5587 13.3161 32.7956 13 32 13ZM42 21C41.2043 21 40.4413 21.3161 39.8787 21.8787C39.3161 22.4413 39 23.2044 39 24V40C39 40.7957 39.3161 41.5587 39.8787 42.1213C40.4413 42.6839 41.2043 43 42 43C42.7957 43 43.5587 42.6839 44.1213 42.1213C44.6839 41.5587 45 40.7957 45 40V24C45 23.2044 44.6839 22.4413 44.1213 21.8787C43.5587 21.3161 42.7957 21 42 21ZM52 17C51.2043 17 50.4413 17.3161 49.8787 17.8787C49.3161 18.4413 49 19.2044 49 20V44C49 44.7957 49.3161 45.5587 49.8787 46.1213C50.4413 46.6839 51.2043 47 52 47C52.7957 47 53.5587 46.6839 54.1213 46.1213C54.6839 45.5587 55 44.7957 55 44V20C55 19.2044 54.6839 18.4413 54.1213 17.8787C53.5587 17.3161 52.7957 17 52 17Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
-
 interface WelcomeViewProps {
-  startButtonText: string;
+  startButtonText?: string;
   onStartCall: () => void;
 }
 
 export const WelcomeView = ({
-  startButtonText,
+  startButtonText = 'Talk to Zomato SDR',
   onStartCall,
-  ref,
-}: React.ComponentProps<'div'> & WelcomeViewProps) => {
+}: WelcomeViewProps) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
-    <div ref={ref}>
-      <section className="bg-background flex flex-col items-center justify-center text-center">
-        <WelcomeImage />
+    <div className="relative min-h-screen overflow-hidden bg-black">
+      {/* Zomato Red Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-red-950 via-black to-red-950" />
 
-        <p className="text-foreground max-w-prose pt-1 leading-6 font-medium">
-          Chat live with your voice AI agent
-        </p>
-
-        <Button variant="primary" size="lg" onClick={onStartCall} className="mt-6 w-64 font-mono">
-          {startButtonText}
-        </Button>
-      </section>
-
-      <div className="fixed bottom-5 left-0 flex w-full items-center justify-center">
-        <p className="text-muted-foreground max-w-prose pt-1 text-xs leading-5 font-normal text-pretty md:text-sm">
-          Need help getting set up? Check out the{' '}
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://docs.livekit.io/agents/start/voice-ai/"
-            className="underline"
-          >
-            Voice AI quickstart
-          </a>
-          .
-        </p>
+      {/* Animated Zomato-style Blobs */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -left-40 h-96 w-96 animate-pulse rounded-full bg-red-600 opacity-40 blur-3xl" />
+        <div className="animation-delay-2000 absolute top-20 -right-32 h-96 w-96 animate-pulse rounded-full bg-orange-600 opacity-30 blur-3xl" />
+        <div className="animation-delay-4000 absolute -bottom-40 left-1/3 h-80 w-80 animate-pulse rounded-full bg-red-700 opacity-25 blur-3xl" />
       </div>
+
+      {/* Floating Food Icons (Zomato vibe) */}
+      <div className="pointer-events-none absolute inset-0">
+        {['', '', '', '', '', ''].map((_, i) => (
+          <div
+            key={i}
+            className="animate-float absolute"
+            style={{
+              top: `${10 + i * 15}%`,
+              left: `${5 + i * 12}%`,
+              animationDelay: `${i * 0.8}s`,
+            }}
+          >
+            <div className="text-6xl text-red-500/20">Pizza</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 text-center">
+        <div
+          className={`max-w-6xl space-y-20 transition-all duration-1200 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+        >
+          {/* Zomato Logo Circle */}
+          <div className="relative mx-auto">
+            <div className="absolute inset-0 animate-ping rounded-full bg-red-600 opacity-30 blur-xl" />
+            <div className="relative flex h-40 w-40 items-center justify-center rounded-full bg-white shadow-2xl">
+              <div className="flex h-32 w-32 items-center justify-center rounded-full bg-red-600">
+                <Store className="h-20 w-20 text-white" strokeWidth={3} />
+              </div>
+            </div>
+            <div className="absolute -inset-8 rounded-full bg-red-600/20 blur-3xl" />
+          </div>
+
+          {/* Hero Text */}
+          <div className="space-y-8">
+            <h1 className="text-6xl font-black tracking-tighter text-white md:text-8xl">
+              Zomato
+              <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
+                {' '}
+                Partner AI
+              </span>
+            </h1>
+            <p className="mx-auto max-w-4xl text-2xl leading-relaxed font-light text-gray-300 md:text-3xl">
+              Meet <span className="font-bold text-red-400">Aarav</span> — your personal Zomato SDR
+              <br />
+              Books demos, answers questions, captures leads — all by voice
+            </p>
+          </div>
+
+          {/* Feature Cards - Zomato Style */}
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            {[
+              {
+                icon: Timer,
+                title: '10-Minute Setup',
+                desc: 'Get listed on Zomato in days, not weeks',
+              },
+              {
+                icon: Mail,
+                title: 'Auto Lead Capture',
+                desc: 'Every call → JSON + follow-up email',
+              },
+              {
+                icon: Sparkles,
+                title: 'Real Zomato Knowledge',
+                desc: 'Trained on actual partner FAQs',
+              },
+            ].map((f, i) => (
+              <div
+                key={i}
+                className="group relative overflow-hidden rounded-3xl border border-red-500/20 bg-white/5 p-10 backdrop-blur-xl transition-all hover:scale-105 hover:border-red-500/50 hover:bg-white/10"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-red-600/10 to-orange-600/10 opacity-0 transition-opacity group-hover:opacity-100" />
+                <f.icon className="mx-auto mb-6 h-14 w-14 text-red-400" />
+                <h3 className="mb-3 text-2xl font-bold text-white">{f.title}</h3>
+                <p className="text-gray-300">{f.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Zomato Red CTA Button */}
+          <Button
+            onClick={onStartCall}
+            className="group relative overflow-hidden rounded-full bg-red-600 px-20 py-8 text-3xl font-bold text-white shadow-2xl transition-all duration-500 hover:scale-110 hover:bg-red-700 hover:shadow-red-600/50"
+          >
+            <span className="relative z-10 flex items-center gap-6">
+              <Mic className="h-12 w-12 transition-transform group-hover:rotate-12" />
+              {startButtonText}
+              <ArrowRight className="h-10 w-10 transition-transform group-hover:translate-x-4" />
+            </span>
+            <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-orange-500 opacity-0 transition-opacity group-hover:opacity-60" />
+          </Button>
+
+          {/* Footer */}
+          <div className="pt-20">
+            <p className="text-xl text-gray-400">
+              Powered by the fastest Indian voice —{' '}
+              <span className="bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text font-bold text-transparent">
+                Murf Falcon
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Custom Animations */}
+      <style jsx>{`
+        @keyframes float {
+          0%,
+          100% {
+            transform: translateY(0px) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-20px) rotate(5deg);
+          }
+        }
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+        .animation-delay-2000 {
+          animation-delay: 2 — s;
+        }
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+      `}</style>
     </div>
   );
 };

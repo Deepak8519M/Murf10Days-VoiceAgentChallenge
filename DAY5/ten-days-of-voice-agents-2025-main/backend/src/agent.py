@@ -1,15 +1,10 @@
-# backend/src/agent.py
+# backend/src/agent.py ← DAY 5 PRIMARY + ADVANCED – FIXED & WORKING
 import json
 import os
 import asyncio
 from datetime import datetime
 from typing import Annotated, Optional
 from dataclasses import dataclass, field
-
-print("\n" + "="*80)
-print("DAY 5 – ZOMATO SDR + LEAD CAPTURE + DEMO BOOKING + EMAIL DRAFT")
-print("Powered by Murf Falcon – The Fastest & Most Natural Voice")
-print("="*80 + "\n")
 
 from dotenv import load_dotenv
 load_dotenv(".env.local")
@@ -25,8 +20,12 @@ if not os.path.exists(FAQ_FILE):
     print("Creating Zomato FAQ...")
     with open(FAQ_FILE, "w", encoding="utf-8") as f:
         json.dump([
-            {"question": "What is Zomato?", "answer": "Zomato is India's largest food delivery platform..."},
-            # ... (full FAQ above)
+            {"question": "What is Zomato?", "answer": "Zomato is India's largest food delivery platform connecting customers with over 350,000 restaurant partners across 500+ cities. We also own Blinkit (quick commerce) and Hyperpure (B2B supplies)."},
+            {"question": "How does Zomato make money?", "answer": "We earn through delivery fees, restaurant commissions (20-30%), advertising (Zomato Gold, ads on app), and subscription fees from Zomato Gold members."},
+            {"question": "Do you have Zomato Gold?", "answer": "Yes! Zomato Gold gives free delivery + up to 40% off at 20,000+ premium restaurants. Starts at just ₹149/month."},
+            {"question": "How can restaurants join Zomato?", "answer": "Just go to zomato.com/partner or call our team. We onboard in 48 hours. No upfront cost — only commission per order."},
+            {"question": "Who is Zomato for?", "answer": "For customers who want food delivered, restaurants who want more orders, and investors who love growth stories. We serve everyone from students to families to office goers."},
+            {"question": "What is Blinkit?", "answer": "Blinkit is Zomato's quick commerce arm — groceries & essentials delivered in 10 minutes. Acquired in 2022 for $568M."}
         ], f, indent=4)
 
 with open(FAQ_FILE, "r", encoding="utf-8") as f:
@@ -70,6 +69,7 @@ def save_lead(lead: Lead):
         "timeline": lead.timeline,
         "booked_demo": lead.booked_slot or "Not booked"
     }
+    os.makedirs("leads", exist_ok=True)
     with open("leads/zomato_leads.jsonl", "a", encoding="utf-8") as f:
         f.write(json.dumps(data, ensure_ascii=False) + "\n")
 
@@ -88,6 +88,9 @@ def save_lead(lead: Lead):
     with open(f"email_drafts/{lead.email or 'unknown'}_{int(datetime.now().timestamp())}.json", "w") as f:
         json.dump(email_draft, f, indent=2)
 
+    print("\nLEAD SAVED + EMAIL DRAFT CREATED!\n")
+    print(json.dumps(data, indent=2))
+
 @function_tool
 async def answer_zomato_question(ctx: RunContext[UserData], question: Annotated[str, "User's question about Zomato"]) -> str:
     question_lower = question.lower()
@@ -104,6 +107,7 @@ async def collect_lead_info(ctx: RunContext[UserData], field: Annotated[str, "na
         return f"Got it, you already told me your {field.replace('_', ' ')}."
     
     await ctx.userdata.session.say(f"Sure! What's your {field.replace('_', ' ')}?")
+    userdata.collected_fields.add(field)
     return f"Asking for {field}..."
 
 @function_tool
@@ -111,6 +115,7 @@ async def book_demo_slot(ctx: RunContext[UserData], slot_index: Annotated[int, "
     if 0 <= slot_index < len(AVAILABLE_SLOTS):
         slot = AVAILABLE_SLOTS[slot_index]
         ctx.userdata.lead.booked_slot = slot
+        save_lead(ctx.userdata.lead)  # Save when booking
         return f"Perfect! I've booked you for {slot}. I'll send a calendar invite to {ctx.userdata.lead.email or 'your email'} shortly!"
     return "Sorry, that slot isn't available. Say 'show slots' to see options."
 
@@ -121,7 +126,7 @@ async def show_available_slots(ctx: RunContext[UserData]) -> str:
 
 class ZomatoSDR(Agent):
     def __init__(self):
-        super().__init__(
+        super().__init__(  # FIXED: No userdata_type
             instructions="""
 You are Aarav, a friendly and professional Sales Development Rep (SDR) for Zomato Partner Platform.
 
