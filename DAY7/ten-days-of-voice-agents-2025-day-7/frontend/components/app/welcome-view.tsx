@@ -29,76 +29,44 @@ export const WelcomeView = forwardRef<
       ref={ref}
       className="relative min-h-screen overflow-hidden bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50"
     >
-      {/* Subtle Indian Pattern Background */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,_#f97316_0%,_transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,_#f59e0b_0%,_transparent_50%)]" />
+      {/* Subtle Saffron Glows */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-20 left-20 h-96 w-96 rounded-full bg-orange-300 blur-3xl" />
+        <div className="absolute right-20 bottom-20 h-96 w-96 rounded-full bg-amber-400 blur-3xl" />
       </div>
 
-      {/* Floating Mandala Orbs */}
-      {[...Array(6)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute h-96 w-96 rounded-full border-8 border-orange-200/30 blur-3xl"
-          animate={{
-            x: [0, 60, -60, 0],
-            y: [0, -60, 60, 0],
-            rotate: [0, 180, 360],
-          }}
-          transition={{
-            duration: 20 + i * 4,
-            repeat: Infinity,
-            ease: 'linear',
-            delay: i * 2,
-          }}
-          style={{
-            top: `${10 + i * 15}%`,
-            left: i % 2 === 0 ? '-20%' : 'auto',
-            right: i % 2 === 1 ? '-20%' : 'auto',
-          }}
-        />
-      ))}
-
-      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 py-20">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: 'easeOut' }}
-          className="w-full max-w-4xl space-y-12 text-center"
-        >
-          {/* Hero Store + Ringing Phone */}
-          <div className="relative inline-block">
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 py-16">
+        <div className="w-full max-w-3xl space-y-10 text-center">
+          {/* Hero Icon Section – Perfectly Centered */}
+          <div className="flex justify-center">
             <motion.div
               animate={{ scale: pulse ? 1.08 : 1 }}
               transition={{ duration: 0.8 }}
               className="relative"
             >
-              {/* Glow */}
-              <div className="absolute inset-0 animate-ping rounded-full bg-orange-400/40 blur-3xl" />
-
-              {/* Main Store Icon */}
-              <div className="relative rounded-3xl bg-gradient-to-br from-orange-500 to-amber-600 p-10 shadow-2xl ring-8 ring-orange-300/50">
-                <Store className="h-32 w-32 text-white md:h-40 md:w-40" strokeWidth={2.5} />
+              <div className="absolute -inset-8 animate-ping rounded-full bg-orange-400/30 blur-3xl" />
+              <div className="relative rounded-3xl bg-gradient-to-br from-orange-500 to-red-600 p-8 shadow-2xl">
+                <Store className="h-24 w-24 text-white md:h-28 md:w-28" strokeWidth={3} />
               </div>
 
-              {/* Ringing Badge */}
+              {/* Ringing Badge – Perfect Position */}
               <motion.div
-                animate={{ y: [-6, 6, -6], rotate: [-15, 15, -15] }}
+                animate={{ y: [-5, 5, -5], rotate: [-12, 12, -12] }}
                 transition={{ duration: 1.8, repeat: Infinity }}
-                className="absolute -top-4 -right-8 rounded-full bg-green-600 p-5 shadow-2xl ring-8 ring-green-500/60"
+                className="absolute -top-4 -right-6 rounded-full bg-green-600 p-4 shadow-xl ring-4 ring-green-500/70"
               >
-                <PhoneIncoming className="h-12 w-12 text-white" />
+                <PhoneIncoming className="h-9 w-9 text-white" />
               </motion.div>
             </motion.div>
           </div>
 
-          {/* Premium Indian Typography */}
-          <div className="space-y-6">
+          {/* Typography – Tight & Perfect */}
+          <div className="space-y-5">
             <motion.h1
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-gradient-to-r from-orange-600 via-red-600 to-amber-600 bg-clip-text text-6xl font-black tracking-tight text-transparent md:text-7xl lg:text-8xl"
+              className="bg-gradient-to-r from-orange-600 via-red-600 to-amber-600 bg-clip-text text-5xl leading-tight font-black tracking-tight text-transparent md:text-6xl lg:text-7xl"
             >
               नमस्ते! Welcome
             </motion.h1>
@@ -107,94 +75,89 @@ export const WelcomeView = forwardRef<
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
-              className="text-3xl font-bold text-orange-800 md:text-5xl"
+              className="text-2xl font-bold text-orange-800 md:text-3xl"
             >
-              I'm <span className="text-orange-600">Robin</span> — Your Personal Grocery Assistant
+              I'm <span className="text-orange-600">Robin</span> — Your Grocery Buddy
             </motion.p>
 
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9 }}
-              className="mx-auto max-w-2xl text-lg font-medium text-orange-700 md:text-xl"
+              className="mx-auto max-w-xl text-base font-medium text-orange-700 md:text-lg"
             >
-              Order Amul, Tata, Maggi, Aashirvaad, fresh sabzi — just speak in Hindi or English
+              Order Amul, Maggi, Aashirvaad, fresh sabzi — just speak naturally
             </motion.p>
           </div>
 
-          {/* Feature Pills */}
-          <div className="grid max-w-3xl grid-cols-2 gap-4 md:grid-cols-4">
+          {/* Feature Pills – Perfect 2×2 Grid */}
+          <div className="mx-auto grid max-w-2xl grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
             {[
-              { icon: ShoppingCart, text: 'Add to Cart' },
-              { icon: Package, text: 'Auto Tracking' },
-              { icon: IndianRupee, text: 'Best Prices' },
-              { icon: Clock, text: '30-Min Delivery' },
+              { icon: ShoppingCart, text: 'Smart Cart' },
+              { icon: Package, text: 'Auto Track' },
+              { icon: IndianRupee, text: 'Best Price' },
+              { icon: Truck, text: '30-Min' },
             ].map((f, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 1.2 + i * 0.1 }}
-                className="rounded-2xl border border-orange-200 bg-white/80 p-6 shadow-lg backdrop-blur-xl"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.1 + i * 0.1 }}
+                className="rounded-2xl border border-orange-200 bg-white/90 px-6 py-5 shadow-md backdrop-blur-sm"
               >
-                <f.icon className="mx-auto mb-2 h-10 w-10 text-orange-600" />
-                <p className="text-sm font-semibold text-orange-800">{f.text}</p>
+                <f.icon className="mx-auto mb-2 h-8 w-8 text-orange-600" />
+                <p className="text-sm font-bold text-orange-800">{f.text}</p>
               </motion.div>
             ))}
           </div>
 
-          {/* GOD-TIER CALL BUTTON */}
+          {/* Perfect Button – Not Too Big */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.6 }}
-            className="pt-8"
+            transition={{ delay: 1.5 }}
+            className="pt-6"
           >
             <Button
               onClick={onStartCall}
-              className="group relative overflow-hidden rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-24 py-12 text-3xl font-bold text-white shadow-2xl transition-all hover:scale-105 hover:shadow-orange-500/60 md:text-4xl"
+              className="group relative overflow-hidden rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-16 py-8 text-2xl font-bold text-white shadow-xl transition-all hover:scale-105 hover:shadow-orange-500/60 md:px-20 md:py-9 md:text-3xl"
             >
               <motion.span
-                className="relative z-10 flex items-center gap-6"
+                className="relative z-10 flex items-center gap-5"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <PhoneIncoming className="h-12 w-12 transition-transform group-hover:rotate-12" />
+                <PhoneIncoming className="h-10 w-10 transition-transform group-hover:rotate-12" />
                 {startButtonText}
-                <Sparkles className="h-12 w-12 text-yellow-300" />
+                <Sparkles className="h-10 w-10 text-yellow-300" />
               </motion.span>
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-500 opacity-0 blur-xl group-hover:opacity-70"
-                animate={{ scale: [1, 1.4, 1] }}
+                className="absolute inset-0 bg-white/20 opacity-0 blur-xl group-hover:opacity-100"
+                animate={{ scale: [1, 1.5, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
             </Button>
           </motion.div>
 
-          {/* Trust Footer */}
+          {/* Footer – Clean & Centered */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 2 }}
-            className="flex flex-wrap items-center justify-center gap-6 pt-16 text-orange-700"
+            transition={{ delay: 1.8 }}
+            className="flex flex-col items-center gap-4 pt-12 text-orange-700"
           >
-            <CheckCircle2 className="h-6 w-6 text-green-600" />
-            <span className="text-lg font-medium">
-              Powered by LiveKit • Deepgram • Murf AI • Gemini 2.5
-            </span>
-            <CheckCircle2 className="h-6 w-6 text-green-600" />
+            <div className="flex items-center gap-4">
+              <CheckCircle2 className="h-5 w-5 text-green-600" />
+              <span className="text-sm font-medium md:text-base">
+                LiveKit • Deepgram • Murf AI • Gemini 2.5 Flash
+              </span>
+              <CheckCircle2 className="h-5 w-5 text-green-600" />
+            </div>
+            <p className="mt-4 text-xl font-bold text-orange-600 md:text-2xl">
+              बोलिए... क्या चाहिए आज?
+            </p>
           </motion.div>
-
-          {/* Hindi Touch */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2.2 }}
-            className="mt-8 text-2xl font-bold text-orange-600"
-          >
-            बोलिए... क्या चाहिए आज?
-          </motion.p>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
