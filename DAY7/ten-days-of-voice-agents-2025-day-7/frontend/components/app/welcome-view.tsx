@@ -1,61 +1,203 @@
+// components/app/welcome-view.tsx
+import { forwardRef, useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import {
+  CheckCircle2,
+  Clock,
+  IndianRupee,
+  Package,
+  PhoneIncoming,
+  ShoppingCart,
+  Sparkles,
+  Store,
+  Truck,
+} from 'lucide-react';
 import { Button } from '@/components/livekit/button';
 
-function WelcomeImage() {
+export const WelcomeView = forwardRef<
+  HTMLDivElement,
+  { onStartCall: () => void; startButtonText?: string }
+>(({ onStartCall, startButtonText = 'Call Robin – Your Grocery Assistant' }, ref) => {
+  const [pulse, setPulse] = useState(false);
+  useEffect(() => {
+    const id = setInterval(() => setPulse((p) => !p), 2000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
-    <svg
-      width="64"
-      height="64"
-      viewBox="0 0 64 64"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="text-fg0 mb-4 size-16"
+    <div
+      ref={ref}
+      className="relative min-h-screen overflow-hidden bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50"
     >
-      <path
-        d="M15 24V40C15 40.7957 14.6839 41.5587 14.1213 42.1213C13.5587 42.6839 12.7956 43 12 43C11.2044 43 10.4413 42.6839 9.87868 42.1213C9.31607 41.5587 9 40.7957 9 40V24C9 23.2044 9.31607 22.4413 9.87868 21.8787C10.4413 21.3161 11.2044 21 12 21C12.7956 21 13.5587 21.3161 14.1213 21.8787C14.6839 22.4413 15 23.2044 15 24ZM22 5C21.2044 5 20.4413 5.31607 19.8787 5.87868C19.3161 6.44129 19 7.20435 19 8V56C19 56.7957 19.3161 57.5587 19.8787 58.1213C20.4413 58.6839 21.2044 59 22 59C22.7956 59 23.5587 58.6839 24.1213 58.1213C24.6839 57.5587 25 56.7957 25 56V8C25 7.20435 24.6839 6.44129 24.1213 5.87868C23.5587 5.31607 22.7956 5 22 5ZM32 13C31.2044 13 30.4413 13.3161 29.8787 13.8787C29.3161 14.4413 29 15.2044 29 16V48C29 48.7957 29.3161 49.5587 29.8787 50.1213C30.4413 50.6839 31.2044 51 32 51C32.7956 51 33.5587 50.6839 34.1213 50.1213C34.6839 49.5587 35 48.7957 35 48V16C35 15.2044 34.6839 14.4413 34.1213 13.8787C33.5587 13.3161 32.7956 13 32 13ZM42 21C41.2043 21 40.4413 21.3161 39.8787 21.8787C39.3161 22.4413 39 23.2044 39 24V40C39 40.7957 39.3161 41.5587 39.8787 42.1213C40.4413 42.6839 41.2043 43 42 43C42.7957 43 43.5587 42.6839 44.1213 42.1213C44.6839 41.5587 45 40.7957 45 40V24C45 23.2044 44.6839 22.4413 44.1213 21.8787C43.5587 21.3161 42.7957 21 42 21ZM52 17C51.2043 17 50.4413 17.3161 49.8787 17.8787C49.3161 18.4413 49 19.2044 49 20V44C49 44.7957 49.3161 45.5587 49.8787 46.1213C50.4413 46.6839 51.2043 47 52 47C52.7957 47 53.5587 46.6839 54.1213 46.1213C54.6839 45.5587 55 44.7957 55 44V20C55 19.2044 54.6839 18.4413 54.1213 17.8787C53.5587 17.3161 52.7957 17 52 17Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
+      {/* Subtle Indian Pattern Background */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,_#f97316_0%,_transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,_#f59e0b_0%,_transparent_50%)]" />
+      </div>
 
-interface WelcomeViewProps {
-  startButtonText: string;
-  onStartCall: () => void;
-}
+      {/* Floating Mandala Orbs */}
+      {[...Array(6)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute h-96 w-96 rounded-full border-8 border-orange-200/30 blur-3xl"
+          animate={{
+            x: [0, 60, -60, 0],
+            y: [0, -60, 60, 0],
+            rotate: [0, 180, 360],
+          }}
+          transition={{
+            duration: 20 + i * 4,
+            repeat: Infinity,
+            ease: 'linear',
+            delay: i * 2,
+          }}
+          style={{
+            top: `${10 + i * 15}%`,
+            left: i % 2 === 0 ? '-20%' : 'auto',
+            right: i % 2 === 1 ? '-20%' : 'auto',
+          }}
+        />
+      ))}
 
-export const WelcomeView = ({
-  startButtonText,
-  onStartCall,
-  ref,
-}: React.ComponentProps<'div'> & WelcomeViewProps) => {
-  return (
-    <div ref={ref}>
-      <section className="bg-background flex flex-col items-center justify-center text-center">
-        <WelcomeImage />
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 py-20">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: 'easeOut' }}
+          className="w-full max-w-4xl space-y-12 text-center"
+        >
+          {/* Hero Store + Ringing Phone */}
+          <div className="relative inline-block">
+            <motion.div
+              animate={{ scale: pulse ? 1.08 : 1 }}
+              transition={{ duration: 0.8 }}
+              className="relative"
+            >
+              {/* Glow */}
+              <div className="absolute inset-0 animate-ping rounded-full bg-orange-400/40 blur-3xl" />
 
-        <p className="text-foreground max-w-prose pt-1 leading-6 font-medium">
-          Chat live with your voice AI agent
-        </p>
+              {/* Main Store Icon */}
+              <div className="relative rounded-3xl bg-gradient-to-br from-orange-500 to-amber-600 p-10 shadow-2xl ring-8 ring-orange-300/50">
+                <Store className="h-32 w-32 text-white md:h-40 md:w-40" strokeWidth={2.5} />
+              </div>
 
-        <Button variant="primary" size="lg" onClick={onStartCall} className="mt-6 w-64 font-mono">
-          {startButtonText}
-        </Button>
-      </section>
+              {/* Ringing Badge */}
+              <motion.div
+                animate={{ y: [-6, 6, -6], rotate: [-15, 15, -15] }}
+                transition={{ duration: 1.8, repeat: Infinity }}
+                className="absolute -top-4 -right-8 rounded-full bg-green-600 p-5 shadow-2xl ring-8 ring-green-500/60"
+              >
+                <PhoneIncoming className="h-12 w-12 text-white" />
+              </motion.div>
+            </motion.div>
+          </div>
 
-      <div className="fixed bottom-5 left-0 flex w-full items-center justify-center">
-        <p className="text-muted-foreground max-w-prose pt-1 text-xs leading-5 font-normal text-pretty md:text-sm">
-          Need help getting set up? Check out the{' '}
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://docs.livekit.io/agents/start/voice-ai/"
-            className="underline"
+          {/* Premium Indian Typography */}
+          <div className="space-y-6">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="bg-gradient-to-r from-orange-600 via-red-600 to-amber-600 bg-clip-text text-6xl font-black tracking-tight text-transparent md:text-7xl lg:text-8xl"
+            >
+              नमस्ते! Welcome
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="text-3xl font-bold text-orange-800 md:text-5xl"
+            >
+              I'm <span className="text-orange-600">Robin</span> — Your Personal Grocery Assistant
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.9 }}
+              className="mx-auto max-w-2xl text-lg font-medium text-orange-700 md:text-xl"
+            >
+              Order Amul, Tata, Maggi, Aashirvaad, fresh sabzi — just speak in Hindi or English
+            </motion.p>
+          </div>
+
+          {/* Feature Pills */}
+          <div className="grid max-w-3xl grid-cols-2 gap-4 md:grid-cols-4">
+            {[
+              { icon: ShoppingCart, text: 'Add to Cart' },
+              { icon: Package, text: 'Auto Tracking' },
+              { icon: IndianRupee, text: 'Best Prices' },
+              { icon: Clock, text: '30-Min Delivery' },
+            ].map((f, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1.2 + i * 0.1 }}
+                className="rounded-2xl border border-orange-200 bg-white/80 p-6 shadow-lg backdrop-blur-xl"
+              >
+                <f.icon className="mx-auto mb-2 h-10 w-10 text-orange-600" />
+                <p className="text-sm font-semibold text-orange-800">{f.text}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* GOD-TIER CALL BUTTON */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.6 }}
+            className="pt-8"
           >
-            Voice AI quickstart
-          </a>
-          .
-        </p>
+            <Button
+              onClick={onStartCall}
+              className="group relative overflow-hidden rounded-full bg-gradient-to-r from-orange-500 to-red-600 px-24 py-12 text-3xl font-bold text-white shadow-2xl transition-all hover:scale-105 hover:shadow-orange-500/60 md:text-4xl"
+            >
+              <motion.span
+                className="relative z-10 flex items-center gap-6"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <PhoneIncoming className="h-12 w-12 transition-transform group-hover:rotate-12" />
+                {startButtonText}
+                <Sparkles className="h-12 w-12 text-yellow-300" />
+              </motion.span>
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-500 opacity-0 blur-xl group-hover:opacity-70"
+                animate={{ scale: [1, 1.4, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+            </Button>
+          </motion.div>
+
+          {/* Trust Footer */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2 }}
+            className="flex flex-wrap items-center justify-center gap-6 pt-16 text-orange-700"
+          >
+            <CheckCircle2 className="h-6 w-6 text-green-600" />
+            <span className="text-lg font-medium">
+              Powered by LiveKit • Deepgram • Murf AI • Gemini 2.5
+            </span>
+            <CheckCircle2 className="h-6 w-6 text-green-600" />
+          </motion.div>
+
+          {/* Hindi Touch */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2.2 }}
+            className="mt-8 text-2xl font-bold text-orange-600"
+          >
+            बोलिए... क्या चाहिए आज?
+          </motion.p>
+        </motion.div>
       </div>
     </div>
   );
-};
+});
+
+WelcomeView.displayName = 'WelcomeView';
