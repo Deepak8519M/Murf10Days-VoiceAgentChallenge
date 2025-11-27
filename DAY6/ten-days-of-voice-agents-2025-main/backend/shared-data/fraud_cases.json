@@ -1,0 +1,32 @@
+[
+    {
+        "userName": "Rahul Sharma",
+        "securityIdentifier": "98765",
+        "cardEnding": "4242",
+        "amount": "\u20b948,900",
+        "merchant": "Global Electronics Ltd",
+        "location": "Dubai, UAE",
+        "time": "today at 2:37 PM",
+        "category": "e-commerce",
+        "source": "global-electronics.ae",
+        "securityQuestion": "What is the name of your first school?",
+        "securityAnswer": "st joseph",
+        "status": "pending_review",
+        "outcome_note": ""
+    },
+    {
+        "userName": "Priya Mehta",
+        "securityIdentifier": "54321",
+        "cardEnding": "8899",
+        "amount": "\u20b932,500",
+        "merchant": "Luxury Fashion Hub",
+        "location": "Singapore",
+        "time": "yesterday at 11:15 PM",
+        "category": "online shopping",
+        "source": "luxuryfashion.sg",
+        "securityQuestion": "What is your mother's maiden name?",
+        "securityAnswer": "verma",
+        "status": "pending_review",
+        "outcome_note": ""
+    }
+]

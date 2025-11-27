@@ -96,6 +96,7 @@ cd frontend
 3. Install dependencies:
 
 ```cmd
+npm install -g pnpm
 pnpm install
 ```
 
