@@ -87,7 +87,7 @@ const WelcomeView = forwardRef<HTMLDivElement, { onStartCall: () => void }>((pro
           onClick={props.onStartCall}
           className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-500 to-green-600 p-5 shadow-lg"
         >
-          <div className="relative rounded-2xl bg-black px-10 py-4 transition-all group-hover:bg-transparent md:px-16 md:py-6">
+          <div className="relative rounded-2xl   transition-all group-hover:bg-transparent md:px-16 md:py-6">
             {/* Border Glow */}
             <motion.div
               className="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-500 to-green-600 opacity-0 blur-xl group-hover:opacity-100"
@@ -95,7 +95,7 @@ const WelcomeView = forwardRef<HTMLDivElement, { onStartCall: () => void }>((pro
               transition={{ duration: 3, repeat: Infinity }}
             />
 
-            <span className="relative flex items-center gap-4 text-2xl font-bold text-white md:text-4xl">
+            <span className="relative flex items-center gap-4 text-xl font-bold text-white md:text-4xl">
               <PhoneIncoming className="h-8 w-8 md:h-10 md:w-10" />
               BEGIN
               <Sparkles className="h-8 w-8 text-yellow-300 md:h-10 md:w-10" />
