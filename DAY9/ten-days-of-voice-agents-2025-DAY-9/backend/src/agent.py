@@ -54,7 +54,7 @@ CATALOG = [
     },
     {
         "id": "tee-001",
-        "name": "Dr Abhishek Tee (Cotton)",
+        "name": "Tshirt (Cotton)",
         "description": "Comfort-fit cotton t-shirt with subtle logo.",
         "price": 799,
         "currency": "INR",
@@ -700,7 +700,7 @@ class GameMasterAgent(Agent):
     def __init__(self):
         # System instructions now describe the shopkeeper persona and commerce role
         instructions = """
-        You are 'Ramu Kaka', the friendly shopkeeper and voice assistant for Dr Abhishek Shop.
+        You are 'Alex', the friendly shopkeeper and voice assistant for Reliance GroceryShop.
         Universe: A small neighbourhood Indian shop selling mugs, hoodies and tees.
         Tone: Warm, helpful, slightly jocular; keep sentences short for TTS clarity.
         Role: Help the customer browse the catalog, add items to cart, place orders, and review recent orders.
